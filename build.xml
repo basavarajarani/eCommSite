@@ -1,0 +1,116 @@
+<project name="eCommerceSite" basedir="." default="war">
+	<property name="src" location="./src"/>
+	<property name="classes" location="src/main/webapp/WEB-INF/classes" />
+	<property name="webapp" location="src/main/webapp"/>
+	<property name="target" location="target"/>
+	<property name="lib" location="${webapp}/WEB-INF/lib"/>
+	<property name="otherlib" location="src/main/OtherLibs"/>
+	<property name="java" location="${src}/main/java"/>
+	<property name="resources" location="${src}/main/resources"/>
+	<property name="tomcat.home" location="C:/Program Files/Apache Software Foundation/Tomcat 6.0"/>
+	<property name="manager.url" location="http://localhost:8080/manager"/>
+	<property name="manager.username" location="root"/>
+	<property name="manager.password" location="root"/>
+	<property name="basedir" location="."/>
+	
+		
+		<path id="compile.path">
+			<fileset dir="${lib}">
+				<include name="*.jar"/>
+			</fileset>
+			<fileset dir="${otherlib}">
+				<include name="*.jar"/>
+			</fileset>
+		</path>
+	
+	<target name="cleanWebService">
+		<delete dir="${classes}" />
+		<delete dir="${src}/main/java/com/basu/schemas"/>
+		<delete dir="target/eCommerceSite"/>
+		<mkdir dir="target/eCommerceSite"/>
+		<mkdir dir="${classes}"/>
+	</target>
+	
+	<target name="generate-sources" depends="cleanWebService">
+		<taskdef name="xjc" classname="org.jvnet.jaxb2_commons.xjc.XJC2Task">
+			<!-- XJC2 Task classpath -->
+			<classpath>
+				<fileset dir="${lib}">
+					<include name="*.jar"/>
+				</fileset>
+			</classpath>
+		</taskdef>
+		<xjc destdir="${java}" extension="true">
+			<arg line="
+				-Xhyperjaxb3-jpa2
+				-Xhyperjaxb3-jpa2-roundtripTestClassName=RoundtripTest
+				-Xinheritance
+				-XtoString
+				-verbose
+				-p com.basu.schemas"/>
+				
+				<!--
+					<binding dir="${basedir}/WebContent/WEB-INF">
+			 			<include name="**/*.xjb"/>
+					</binding> 
+				-->
+			<schema dir="${resources}">
+			 	<include name="**/site-model.xsd"/>
+			</schema>
+			<classpath>
+				<fileset dir="${lib}">
+					<include name="*.jar"/>
+				</fileset>
+			</classpath>
+		</xjc>
+	
+	</target>
+
+	
+	<target name="buildWebService" depends="generate-sources">
+		<javac srcdir="${src}" destDir="${classes}" debug="on" verbose="on">
+			<classpath>
+				<fileset dir="${lib}">
+					<include name="*.jar"/>
+				</fileset>
+				<fileset dir="${otherlib}">
+					<include name="*.jar"/>
+				</fileset>
+			</classpath>
+		</javac>
+	</target>
+	
+	<target name="war" depends="buildWebService">
+
+		<copy todir="target/eCommerceSite">
+			<fileset dir="${webapp}"/>
+		</copy>		
+		<copy todir="${webapp}/WEB-INF/classes" file="${webapp}/WEB-INF/logging.properties"/>
+		<jar jarfile="${target}/eCommerceSite.war" basedir="${target}/eCommerceSite"/>
+		<copy todir="C:\Oracle\Middleware\user_projects\domains\sam_getter\servers\AdminServer\upload" file="${target}/eCommerceSite.war"/>
+	</target>
+	
+	<taskdef name="hibernatetool"
+	         classname="org.hibernate.tool.ant.HibernateToolTask">
+		<classpath>
+			<fileset dir="${otherlib}">
+				<include name="*.jar"/>
+			</fileset>
+		</classpath>
+	</taskdef>
+	  <target name="schemaexport" 	          description="Exports a generated schema to DB and file">
+	    <hibernatetool destdir="${basedir}">
+	      <classpath path="${classes}"/>
+	      <configuration 
+	          configurationfile="${basedir}/hibernate1.cfg.xml"/>
+	      <hbm2ddl
+	          drop="true"
+	          create="true"
+	          export="true"
+	          outputfilename="helloworld-ddl.sql"
+	          delimiter=";"
+	          format="true"/>
+	    </hibernatetool>
+	</target>
+	
+</project>
