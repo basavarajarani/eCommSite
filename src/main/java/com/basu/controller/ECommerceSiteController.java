@@ -131,6 +131,7 @@ public class ECommerceSiteController {
 			sideTreeNodeList.add(sideTreeNode);
 			ProductCategoryUtil.allProductCategoryBuildSideTree(pc,sideTreeNodeList);
 		}
+		System.out.println("sideTreeNodeList:"+sideTreeNodeList);
 		
 		return sideTreeNodeList;
 		
