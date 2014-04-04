@@ -30,18 +30,29 @@ var setting = {
 				url: "<%=request.getContextPath()%>/generateSideMenu",
 			success : function(response) {
 
-				$.fn.zTree.init($("#sideTree"), setting, response);
+//				$.fn.zTree.init($("#sideTree"), setting, response);
 			}
 		});
 	});
 </script>
-
 <div id="sidebar" style="clear: both; float: left; width: 200px; border-right:1px solid grey;">
 
 	<p> <em>Categories</em></p>
-	<ul id="sideTree" class="ztree"></ul>
-
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.5/angular.min.js"></script>
+<spring:url value="/static/js/hello.js" var="hellojs" />
+<script src="${hellojs}"></script>
+<div ng-app="myapp" style="clear:both;">
+	<div ng-controller="SideMenuController" >
+		<h2>Hello {{helloTo.title}} !</h2>
+		<table>
+			<tr ng-repeat="menu in sideMenuItems">
+				<td> {{ menu.id }}
+			</tr>
+		</table>
+	</div>
 </div>
+</div>
+
 <div id="productlistcontainer" style="float: left;">
 	<c:forEach var="product" items="${products}">
 		<div id="productcontainer" style="border-bottom: 1px solid grey;">
@@ -64,3 +75,4 @@ var setting = {
 		</div>
 	</c:forEach>
 </div>
+
