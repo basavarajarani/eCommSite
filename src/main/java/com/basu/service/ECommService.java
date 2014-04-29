@@ -199,4 +199,9 @@ public class ECommService {
 		return products;
 	}
 
+	public Product getProductById(int recid) {
+		// TODO Auto-generated method stub
+		return this.productRepository.findOne(new Long(recid));
+	}
+
 }

@@ -1,0 +1,178 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="xmlapi_1.0"
+	targetNamespace="xmlapi_1.0" elementFormDefault="unqualified"
+	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" xmlns:hj="http://hyperjaxb3.jvnet.org/ejb/schemas/customizations"
+	xmlns:orm="http://java.sun.com/xml/ns/persistence/orm"
+	jaxb:extensionBindingPrefixes="hj orm" jaxb:version="2.0">
+
+	<xs:annotation>
+		<xs:appinfo>
+			<jaxb:globalBindings generateIsSetMethod="true"
+				localScoping="toplevel">
+				<jaxb:serializable />
+			</jaxb:globalBindings>
+		</xs:appinfo>
+	</xs:annotation>
+
+	<xs:complexType name="ProductCategory">
+		<xs:sequence>
+			<xs:element name="CategoryId" type="xs:integer">
+				<xs:annotation>
+					<xs:appinfo>
+						<hj:id/>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CategoryName" type="xs:string" />
+			<xs:element name="SubCategories" type="ProductCategory"
+				minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:appinfo>
+						<hj:one-to-many fetch="LAZY">
+							<orm:order-column />
+						</hj:one-to-many>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ParentCategory" type="ProductCategory">
+							<xs:annotation>
+					<xs:appinfo>
+						<hj:many-to-one merge="false">
+							<orm:join-column name="ProductCategory_ParentCategory" />
+						</hj:many-to-one>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="Product">
+		<xs:all>
+			<xs:element name="ProductId" type="xs:integer">
+				<xs:annotation>
+					<xs:appinfo>
+						<hj:id />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ProductSKU" type="xs:string" />
+			<xs:element name="ProductName" type="xs:string" />
+			<xs:element name="ProductPrice" type="xs:decimal" />
+			<xs:element name="ProductWeight" type="xs:decimal" />
+			<xs:element name="ProductShortDesc" type="xs:string" />
+			<xs:element name="ProductLongDesc" type="xs:string" />
+			<xs:element name="ProductUpdateDate" type="xs:date" />
+			<xs:element name="ProductStock" type="xs:integer" />
+			<xs:element name="ProductCategory" type="ProductCategory" />
+		</xs:all>
+	</xs:complexType>
+
+	<xs:complexType name="Order">
+		<xs:sequence>
+			<xs:element name="OrderId" type="xs:integer">
+				<xs:annotation>
+					<xs:appinfo>
+						<hj:id />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+
+			<xs:element name="OrderAmount" type="xs:decimal" />
+			<xs:element name="OrderShipName" type="xs:string" />
+			<xs:element name="OrderShipAddress" type="xs:string" />
+			<xs:element name="OrderShipAddress2" type="xs:string" />
+			<xs:element name="OrderCity" type="xs:string" />
+			<xs:element name="OrderState" type="xs:string" />
+			<xs:element name="OrderZip" type="xs:string" />
+			<xs:element name="OrderCountry" type="xs:string" />
+			<xs:element name="OrderPhone" type="xs:string" />
+			<xs:element name="OrderFax" type="xs:string" />
+			<xs:element name="OrderShipping" type="xs:decimal" />
+			<xs:element name="OrderTax" type="xs:decimal" />
+			<xs:element name="OrderEmail" type="xs:decimal" />
+			<xs:element name="OrderDate" type="xs:date" />
+			<xs:element name="OrderShipped" type="xs:boolean" />
+			<xs:element name="OrderTrackingNumber" type="xs:string" />
+			<xs:element name="OrderList" type="OrderItem" minOccurs="0"
+				maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:appinfo>
+						<hj:one-to-many fetch="LAZY">
+							<orm:order-column />
+						</hj:one-to-many>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="User" type="User">
+				<xs:annotation>
+					<xs:appinfo>
+						<hj:many-to-one>
+							<orm:order-column />
+						</hj:many-to-one>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="OrderItem">
+		<xs:all>
+			<xs:element name="OrderItemId" type="xs:integer">
+				<xs:annotation>
+					<xs:appinfo>
+						<hj:id />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Order" type="Order">
+				<xs:annotation>
+					<xs:appinfo>
+						<hj:many-to-one merge="false">
+							<orm:join-column name="OrderItem_Order" />
+						</hj:many-to-one>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OrderItemName" type="xs:string" />
+			<xs:element name="OrderItemFinalPrice" type="xs:decimal" />
+			<xs:element name="OrderQuantity" type="xs:integer" />
+		</xs:all>
+	</xs:complexType>
+
+	<xs:complexType name="User">
+		<xs:sequence>
+			<xs:element name="UserId" type="xs:integer">
+				<xs:annotation>
+					<xs:appinfo>
+						<hj:id />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+
+			<xs:element name="UserEmail" type="xs:string" />
+			<xs:element name="UserPassword" type="xs:string" />
+			<xs:element name="UserFirstName" type="xs:string" />
+			<xs:element name="UserLastName" type="xs:string" />
+			<xs:element name="UserAddress" type="xs:string" />
+			<xs:element name="UserAddress2" type="xs:string" />
+			<xs:element name="UserCity" type="xs:string" />
+			<xs:element name="UserState" type="xs:string" />
+			<xs:element name="UserCountry" type="xs:string" />
+			<xs:element name="UserZip" type="xs:string" />
+
+			<xs:element name="UserPhone" type="xs:string" />
+			<xs:element name="UserFax" type="xs:string" />
+			<xs:element name="UserEmailVerified" type="xs:boolean" />
+			<xs:element name="UserVerificationCode" type="xs:string" />
+			<xs:element name="OrderList" type="Order" minOccurs="0"
+				maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:appinfo>
+						<hj:one-to-many>
+							<orm:order-column />
+						</hj:one-to-many>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

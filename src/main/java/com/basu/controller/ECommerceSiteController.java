@@ -51,7 +51,7 @@ import com.google.gdata.util.ServiceException;
 @Controller
 @SessionAttributes("myRequestObject")
 public class ECommerceSiteController {
-	
+
 	@Autowired
 	public ECommService eCommService;
 
@@ -61,45 +61,53 @@ public class ECommerceSiteController {
 		MyCommandBean bean = new MyCommandBean("Hello World",42);
 		return bean;
 	}
-	
+
 	public ECommerceSiteController () {
 		System.out.println("Controller constructor invoked");
 	}
-	
-	
+
+
 	@RequestMapping("/")
 	public ModelAndView welcomePage(Model model, HttpServletRequest request, HttpSession session) throws IOException, ServiceException {
-		
+
 		String message = "Hello World, Spring 3.0!";
-		
-		
-	//	
-		
+
+
+		//	
+
 		ModelAndView modelAndView = new ModelAndView();
 		UserDetails userDetails = null;
 		String userFullName = null;
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = null;
 		if (!(auth instanceof AnonymousAuthenticationToken))
 		{
 			userDetails = (UserDetails) auth.getPrincipal();
 			String userName = userDetails.getUsername();
-			
-			User user = this.eCommService.getUserByUserName(userName);
-			
+
+			user = this.eCommService.getUserByUserName(userName);
+
 			userFullName = user.getUserFirstName()+" "+user.getUserLastName();
 		}
 
 
-		
-		
-		modelAndView.setViewName("MainView");
-		modelAndView.addObject("module","WelcomePage");
+
+		if(user!=null && user.getAuthority().getAuthority().contains("ADMIN"))
+		{
+			modelAndView.setViewName("AdminView");
+			modelAndView.addObject("module","Dashboard");
+		} else {
+			modelAndView.setViewName("index");
+			modelAndView.addObject("module","WelcomePage");
+		}
+
 		modelAndView.addObject("userFullName",userFullName);
 		//modelAndView.addObject("menudata", generateMenu()); 
-		
+
 		return modelAndView;
 	}
-	
+
+	@Secured ("ROLE_ADMIN")
 	@RequestMapping(value="getAlbumList", method=RequestMethod.GET)
 	public @ResponseBody Map<String,String> getAlbumList() throws IOException, ServiceException
 	{
@@ -108,19 +116,20 @@ public class ECommerceSiteController {
 		System.out.println(googleAlbumList);
 		return googleAlbumList;
 	}
-	
+
+	@Secured ("ROLE_ADMIN")
 	@RequestMapping(value="getAlbumImages", method=RequestMethod.GET)
 	public @ResponseBody List<String> getProductImages(@RequestParam(value="albumId")String albumId) throws IOException, ServiceException {
-		
+
 		System.out.println("Retreiving google photos");
 		List<String> googlePhotoList = GooglePhotoAccessor.retreiveGooglePics(albumId);
 		System.out.println("PhotoList:"+googlePhotoList);
 		return googlePhotoList;
 	}
-	
+
 	@RequestMapping(value="generateSideMenu", method=RequestMethod.GET)
 	public @ResponseBody List<SideTreeNode> generateSideMenu() {
-		
+
 		List<ProductCategory> productCategoryListFromDb = eCommService.getAllTopLevelProductCategories();
 		List<SideTreeNode> sideTreeNodeList = new ArrayList<SideTreeNode>();
 		for (int i=0;i<productCategoryListFromDb.size();i++){
@@ -132,9 +141,9 @@ public class ECommerceSiteController {
 			ProductCategoryUtil.allProductCategoryBuildSideTree(pc,sideTreeNodeList);
 		}
 		System.out.println("sideTreeNodeList:"+sideTreeNodeList);
-		
+
 		return sideTreeNodeList;
-		
+
 	}
 
 	@RequestMapping(value="generateMenu", method=RequestMethod.GET)
@@ -142,18 +151,18 @@ public class ECommerceSiteController {
 		// TODO Auto-generated method stub
 		List<String> productCategoryListToJson = new ArrayList<String>();
 		System.out.println("Entering generateMenu");
-//		List<ProductCategory> prodCatList =  this.eCommService.getProductCategoryDao().getUniqueProductCategories();
+		//		List<ProductCategory> prodCatList =  this.eCommService.getProductCategoryDao().getUniqueProductCategories();
 		if (eCommService==null)
 			System.out.println("eCommService is null");
 		List<ProductCategory> productCategoryListFromDb = eCommService.getAllTopLevelProductCategories();
-		
+
 		for (int i =0;i<productCategoryListFromDb.size();i++)
 		{
 			ProductCategory productCategory = productCategoryListFromDb.get(i);
-					ProductCategoryUtil.allProductCategoryBuildTree(productCategory.getSubCategories(), 
-							
-							productCategoryListToJson,productCategory.getCategoryName()+"::"+productCategory.getHjid(),true);
-			
+			ProductCategoryUtil.allProductCategoryBuildTree(productCategory.getSubCategories(), 
+
+					productCategoryListToJson,productCategory.getCategoryName()+"::"+productCategory.getHjid(),true);
+
 		}
 		System.out.println(productCategoryListToJson);
 		return productCategoryListToJson;
@@ -162,11 +171,11 @@ public class ECommerceSiteController {
 
 	@RequestMapping(value="retrieveCountries", method=RequestMethod.GET, produces="application/json")
 	public @ResponseBody String retrieveAllCountries() {
-		
+
 		System.out.println("Invoking retrieveCountries");
 		return this.eCommService.retrieveAllCountries();
 	}
-	
+
 	@RequestMapping(value="retrieveRoles", method=RequestMethod.GET, produces="application/json")
 	public @ResponseBody String retrieveRoles() {
 		String rolesSelectString = "<select>";
@@ -174,27 +183,27 @@ public class ECommerceSiteController {
 		rolesSelectString += "<option value='ROLE_ADMIN'>ROLE_ADMIN</option>";
 		return rolesSelectString;
 	}
-		
+
 	@RequestMapping(value="/login", method = RequestMethod.GET)
 	public String login(ModelMap model) {
 		System.out.println("Invoking loginPage");
 		return "loginPage";
 	}
- 
+
 	@RequestMapping(value="/loginfailed", method = RequestMethod.GET)
 	public String loginerror(ModelMap model) {
- 
+
 		System.out.println("Invoked loginerror");
 		model.addAttribute("error", "true");
 		return "loginPage";
- 
+
 	}
- 
+
 	@RequestMapping(value="/logout", method = RequestMethod.GET)
 	public String logout(ModelMap model) {
- 
+
 		System.out.println("Invoked Logout");
 		return "MainView";
- 
+
 	}
 }

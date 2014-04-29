@@ -1,7 +1,9 @@
 package com.basu.controller;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -39,8 +41,8 @@ public class ProductCategoryController {
 	public ModelAndView getCreateProductCategoryForm()
 	{
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("MainView");
-		modelAndView.addObject("module","ProductCategoryBody");
+		modelAndView.setViewName("AdminView");
+		modelAndView.addObject("module","ProductCategory");
 		modelAndView.addObject("productCategory",new ProductCategory());
 		return modelAndView;
 	}
@@ -83,6 +85,15 @@ public class ProductCategoryController {
 		productCategoryListToJson.add("");
 		System.out.println(productCategoryListToJson);
 		return productCategoryListToJson;
+	}
+	
+	@RequestMapping(value="get_productCategory_listmap", method=RequestMethod.GET)
+	public @ResponseBody Map<String, List<String>> get_productCategory_listmap()
+	{
+		List<String> productCategoryListToJson = getProductCategoryList();
+		Map<String, List<String>> productCategoryListMapToJson = new Hashtable<String, List<String>>();
+		productCategoryListMapToJson.put("items", productCategoryListToJson);
+		return productCategoryListMapToJson;
 	}
 
 

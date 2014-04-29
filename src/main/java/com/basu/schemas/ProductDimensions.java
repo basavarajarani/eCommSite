@@ -20,7 +20,7 @@ public class ProductDimensions implements Serializable {
 	protected int id;
 
 	public enum LengthClass {
-		Centemeter,
+		Centimeter,
 		Milimeter,
 		Inch
 	};

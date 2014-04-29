@@ -21,9 +21,55 @@ public class ProductDto implements Serializable{
 	private BigInteger stock;
 	private String productimage;
 	private String thumbnails;
+	private String additionalimages;
+	private String weightclass;
+
+	private String lengthclass;
+	private String length;
+	private String height;
+	private String width;
 	
 	
 	
+	
+	
+	
+	public String getWeightclass() {
+		return weightclass;
+	}
+	public void setWeightclass(String weightclass) {
+		this.weightclass = weightclass;
+	}
+	public String getLengthclass() {
+		return lengthclass;
+	}
+	public void setLengthclass(String lengthclass) {
+		this.lengthclass = lengthclass;
+	}
+	public String getLength() {
+		return length;
+	}
+	public void setLength(String length) {
+		this.length = length;
+	}
+	public String getHeight() {
+		return height;
+	}
+	public void setHeight(String height) {
+		this.height = height;
+	}
+	public String getWidth() {
+		return width;
+	}
+	public void setWidth(String width) {
+		this.width = width;
+	}
+	public String getAdditionalimages() {
+		return additionalimages;
+	}
+	public void setAdditionalimages(String additionalimages) {
+		this.additionalimages = additionalimages;
+	}
 	public String getProductimage() {
 		return productimage;
 	}

@@ -19,7 +19,7 @@ public class GooglePhotoAccessor {
 	public static Map<String,String> retrieveAlbumNames() throws IOException,ServiceException {
 		PicasawebService myService = new PicasawebService ("Download Albums");
 		
-		myService.setUserCredentials("basavaraj.arani@gmail.com", "T$ahe1u@g00g1ema11");
+		myService.setUserCredentials("basavaraj.arani@gmail.com", "maisuramallige#4");
 		
 		URL feedUrl = new URL("https://picasaweb.google.com/data/feed/api/user/default?kind=album");
 
@@ -34,7 +34,7 @@ public class GooglePhotoAccessor {
 	}
 	public static List<String> retreiveGooglePics(String albumIdEntry) throws IOException, ServiceException {
 		PicasawebService myService = new PicasawebService("Download Album Links");
-		myService.setUserCredentials("basavaraj.arani@gmail.com", "T$ahe1u@g00g1ema11");
+		myService.setUserCredentials("basavaraj.arani@gmail.com", "maisuramallige#4");
 		String []albumIdSplit = albumIdEntry.split("/");
 		String albumId = albumIdSplit[albumIdSplit.length-1];
 

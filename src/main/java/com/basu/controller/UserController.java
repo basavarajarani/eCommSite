@@ -45,7 +45,7 @@ public class UserController {
 	public ModelAndView getUserOperationsForm()
 	{
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("MainView");
+		modelAndView.setViewName("AdminView");
 		modelAndView.addObject("module","UserOperationsForm");
 		return modelAndView;
 	}

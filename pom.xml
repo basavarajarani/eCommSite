@@ -30,13 +30,13 @@
 			<artifactId>gdata-photos-2.0</artifactId>
 			<version>1.47.1</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.google.gdata.gdata-java-client</groupId>
 			<artifactId>gdata-photos-meta-2.0</artifactId>
 			<version>1.47.1</version>
 		</dependency>
-				
+
 
 		<dependency>
 			<groupId>com.google.gdata</groupId>
@@ -44,11 +44,7 @@
 			<version>1.47.1</version>
 		</dependency>
 
-		<dependency>
-			<groupId>javax.persistence</groupId>
-			<artifactId>persistence-api</artifactId>
-			<version>1.0.2</version>
-		</dependency>
+
 		<dependency>
 			<groupId>org.jvnet.jaxb2_commons</groupId>
 			<artifactId>jaxb2-basics-runtime</artifactId>
@@ -179,6 +175,12 @@
 			<artifactId>hibernate-jpa-2.0-api</artifactId>
 			<version>1.0.1.Final</version>
 		</dependency>
+		<dependency>
+			<groupId>org.hibernate.javax.persistence</groupId>
+			<artifactId>hibernate-jpa-2.0-api</artifactId>
+			<version>1.0.0.Final</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>

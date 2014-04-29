@@ -93,11 +93,12 @@ public class Product
 		this.mainImage = mainImage;
 	}
 
-    @OneToMany(fetch=FetchType.EAGER, targetEntity = Image.class, cascade = {
+    @OneToMany(orphanRemoval = true, fetch=FetchType.EAGER, targetEntity = Image.class, cascade = {
         CascadeType.ALL
     })
     @JoinColumn(name = "IMAGELIST_PRODUCT__HJID")
     @OrderColumn(name = "IMAGELIST_HJIMAGE")
+    
 	public List<Image> getAdditionalImages() {
 		return additionalImages;
 	}
