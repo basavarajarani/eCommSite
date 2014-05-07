@@ -97,8 +97,7 @@ public class Product
         CascadeType.ALL
     })
     @JoinColumn(name = "IMAGELIST_PRODUCT__HJID")
-    @OrderColumn(name = "IMAGELIST_HJIMAGE")
-    
+    @OrderColumn(name="IMAGELIST_PRODUCT")
 	public List<Image> getAdditionalImages() {
 		return additionalImages;
 	}

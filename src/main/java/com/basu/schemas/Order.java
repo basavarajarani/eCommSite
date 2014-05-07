@@ -667,7 +667,6 @@ public class Order
         CascadeType.ALL
     }, fetch = FetchType.LAZY)
     @JoinColumn(name = "ORDERLIST_ORDER__HJID")
-    @OrderColumn(name = "ORDERLIST_HJORDER")
     public List<OrderItem> getOrderList() {
         if (orderList == null) {
             orderList = new ArrayList<OrderItem>();

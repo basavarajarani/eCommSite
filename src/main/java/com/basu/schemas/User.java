@@ -531,7 +531,6 @@ public class User
         CascadeType.ALL
     })
     @JoinColumn(name = "ORDERLIST_USER__HJID")
-    @OrderColumn(name = "ORDERLIST_HJORDER")
     public List<Order> getOrderList() {
         if (orderList == null) {
             orderList = new ArrayList<Order>();

@@ -66,7 +66,7 @@
 	position: relative;
 	z-index: 5555;
 	width: auto;
-	margin-top: 20px;
+	
 	background: none repeat scroll 0% 0% #0FA6BC;
 }
 
@@ -161,22 +161,22 @@
 				</div>
 			</div>
 		</div>
-		<div class="menubar">
-			<div class="row">
-				<div id="menubar">
-					<ul id="main-menu" class="sm sm-blue">
-						<li id="ProductsSubMenu"><a href="#">Products</a>
-							<ul id="prodsubmenu"></ul></li>
-						<li><a href="#">Service</a></li>
-
-					</ul>
-				</div>
-			</div>
-		</div>
 	</div>
 
 	<!-- Logo & Navigation ends -->
 
+
+	<div id="menubarcontainer" style="background:#0FA6BC;">
+	<div id="menubar" class="row" style="width:80%; margin-right:auto;margin-left:auto;">
+		<ul id="main-menu" class="sm sm-blue">
+			<li id="HomeMenu"><a href="index.html">Home</a></li>
+			<li id="ProductsSubMenu"><a href="#">Products</a>
+				<ul id="prodsubmenu"></ul></li>
+			<li><a href="#">Service</a></li>
+
+		</ul>
+	</div>
+	</div>
 	<div class="clearfix"></div>
 
 	<!-- Slider starts -->
@@ -186,24 +186,16 @@
 				<!-- SLIDE  -->
 				<li data-transition="fade" data-slotamount="7"
 					data-masterspeed="2000">
-					<!-- MAIN IMAGE --> <img src="img/slider/rs-1.jpg" alt=""
-					data-bgfit="cover" data-bgposition="center center"
-					data-bgrepeat="no-repeat"> <!-- LAYERS --> <!-- LAYERS NR. 1 -->
+					<!-- MAIN IMAGE --> 
+					<img src="img/slider/rs-1.jpg" alt="" data-bgfit="cover" data-bgposition="center center" data-bgrepeat="no-repeat"> 
+					<!-- LAYERS --> <!-- LAYERS NR. 1 -->
 					<div class="tp-caption customin largepinkbg lft" data-x="center"
 						data-y="65"
 						data-customin="x:0;y:0;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:0;scaleY:0;skewX:0;skewY:0;opacity:0;transformPerspective:600;transformOrigin:50% 50%;"
 						data-speed="800" data-start="1200" data-easing="Back.easeOut"
 						data-endspeed="400" data-endeasing="Back.easeIn"
-						data-captionhidden="on" style="z-index: 1">Special Offer</div> <!-- Layer 2 -->
-					<div
-						class="tp-caption mediumwhitebg customin customout text-center"
-						data-x="center" data-y="155"
-						data-customin="x:0;y:100;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:1;scaleY:3;skewX:0;skewY:0;opacity:0;transformPerspective:600;transformOrigin:0% 0%;"
-						data-customout="x:0;y:0;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:0.75;scaleY:0.75;skewX:0;skewY:0;opacity:0;transformPerspective:600;transformOrigin:50% 50%;"
-						data-speed="1000" data-start="2500" data-easing="Power4.easeOut"
-						data-endspeed="500" data-endeasing="Power4.easeIn"
-						data-captionhidden="on" style="z-index: 5">Bazaar, theme
-						developers and developers!!!</div> <!-- LAYERS NR. 3 -->
+						data-captionhidden="on" style="z-index: 1">Special Offer</div> 
+					<!-- Layer 2 -->
 					<div class="tp-caption skewfromleft" data-x="150" data-y="240"
 						data-speed="500" data-start="3500" data-easing="Elastic.easeOut"
 						data-endspeed="400" data-endeasing="Elastic.easeOut"
@@ -215,11 +207,11 @@
 						data-easing="Elastic.easeOut" data-endspeed="400"
 						data-endeasing="Elastic.easeOut" data-captionhidden="off"
 						style="z-index: 4">$299</div> <!-- LAYERS NR. 4 -->
-					<div class="tp-caption skewfromleft" data-x="330" data-y="265"
+					<div class="tp-caption skewfromleft" data-x="330" data-y="210"
 						data-speed="500" data-start="4300" data-easing="Elastic.easeOut"
 						data-endspeed="400" data-endeasing="Elastic.easeOut"
 						data-captionhidden="off" style="z-index: 4">
-						<img src="img/slider/2.png" class="img-responsive" alt="product" />
+						<img src="img/slider/5.png" class="img-responsive" alt="product" />
 					</div> <!-- LAYERS NR. 4.1 -->
 					<div class="tp-caption skewfromleft img-tag" data-x="400"
 						data-y="240" data-speed="800" data-start="4500"
@@ -249,18 +241,18 @@
 						data-endeasing="Elastic.easeOut" data-captionhidden="off"
 						style="z-index: 6">$25</div>
 				</li>
-				<!-- SLIDE  -->
+<!-- 				SLIDE 
 				<li data-transition="incube" data-slotamount="6"
 					data-masterspeed="500">
-					<!-- MAIN IMAGE --> <img src="img/slider/rs-3.jpg" alt=""
+					MAIN IMAGE <img src="img/slider/rs-3.jpg" alt=""
 					data-bgfit="cover" data-bgposition="left center"
-					data-bgrepeat="no-repeat"> <!-- LAYERS --> <!-- LAYER NR. 1 -->
+					data-bgrepeat="no-repeat"> LAYERS LAYER NR. 1
 					<div class="tp-caption customin customout large_bold_white"
 						data-x="20" data-y="120"
 						data-customin="x:0;y:0;z:0;rotationX:90;rotationY:0;rotationZ:0;scaleX:1;scaleY:1;skewX:0;skewY:0;opacity:0;transformPerspective:200;transformOrigin:50% 0%;"
 						data-customout="x:0;y:0;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:0.75;scaleY:0.75;skewX:0;skewY:0;opacity:0;transformPerspective:600;transformOrigin:50% 50%;"
 						data-speed="1000" data-start="1200" data-easing="Back.easeInOut"
-						data-endspeed="300" style="z-index: 1">Multi Brands</div> <!-- LAYER NR. 2 -->
+						data-endspeed="300" style="z-index: 1">Multi Brands</div> LAYER NR. 2
 					<div class="tp-caption medium_light_white customin customout"
 						data-x="20" data-y="190"
 						data-customin="x:0;y:100;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:1;scaleY:3;skewX:0;skewY:0;opacity:0;transformPerspective:600;transformOrigin:0% 0%;"
@@ -270,7 +262,7 @@
 						data-captionhidden="on" style="z-index: 3">
 						Bazaar, theme developers and everyday<br />slide-based displaying
 						solution, thousands of<br /> people use and love!
-					</div> <!-- LAYER NR. 3 -->
+					</div> LAYER NR. 3
 					<div class="tp-caption customin customout" data-x="20" data-y="300"
 						data-customin="x:0;y:100;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:1;scaleY:3;skewX:0;skewY:0;opacity:0;transformPerspective:600;transformOrigin:0% 0%;"
 						data-customout="x:0;y:0;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:0.75;scaleY:0.75;skewX:0;skewY:0;opacity:0;transformPerspective:600;transformOrigin:50% 50%;"
@@ -278,7 +270,7 @@
 						data-endspeed="500" data-endeasing="Power4.easeIn"
 						data-captionhidden="on" style="z-index: 4">
 						<a class="btn btn-danger black" href="#">Buy it Now for $50.99</a>
-					</div> <!-- LAYER NR. 4 -->
+					</div> LAYER NR. 4
 					<div class="tp-caption skewfromright customout" data-x="right"
 						data-hoffset="-50" data-y="bottom"
 						data-customout="x:0;y:0;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:0.75;scaleY:0.75;skewX:0;skewY:0;opacity:0;transformPerspective:600;transformOrigin:50% 50%;"
@@ -288,39 +280,39 @@
 						<img class="img-responsive" src="img/slider/girl.png" alt="" />
 					</div>
 				</li>
-				<!-- SLIDE  -->
+ --><!-- 				SLIDE 
 				<li data-transition="3dcurtain-vertical" data-slotamount="7"
 					data-masterspeed="500">
-					<!-- MAIN IMAGE --> <img src="img/slider/rs-2.jpg" alt=""
+					MAIN IMAGE <img src="img/slider/rs-2.jpg" alt=""
 					data-bgfit="cover" data-bgposition="center center"
-					data-bgrepeat="no-repeat" /> <!-- LAYERS --> <!-- LAYER NR. 1 -->
+					data-bgrepeat="no-repeat" /> LAYERS LAYER NR. 1
 					<div class="tp-caption lfr" data-x="right" data-hoffset="-40"
 						data-y="90" data-speed="1200" data-start="1500"
 						data-easing="Power4.easeOut" data-endspeed="300"
 						data-endeasing="Power1.easeIn" data-captionhidden="on"
 						style="z-index: 1">
 						<img class="img-responsive" src="img/slider/s31.png" alt="" />
-					</div> <!-- LAYER NR. 2 -->
+					</div> LAYER NR. 2
 					<div class="tp-caption lfr" data-x="right" data-hoffset="-20"
 						data-y="204" data-speed="1200" data-start="1800"
 						data-easing="Power4.easeOut" data-endspeed="300"
 						data-endeasing="Power1.easeIn" data-captionhidden="on"
 						style="z-index: 2">
 						<img class="img-responsive" src="img/slider/s32.png" alt="" />
-					</div> <!-- LAYER NR. 3 -->
+					</div> LAYER NR. 3
 					<div class="tp-caption lfr" data-x="right" data-hoffset="-370"
 						data-y="252" data-speed="1200" data-start="2100"
 						data-easing="Power4.easeOut" data-endspeed="300"
 						data-endeasing="Power1.easeIn" data-captionhidden="on"
 						style="z-index: 3">
 						<img class="img-responsive" src="img/slider/s33.png" alt="" />
-					</div> <!-- LAYER NR. 4 -->
+					</div> LAYER NR. 4
 					<div class="tp-caption customin customout large_bold_white"
 						data-x="20" data-y="120"
 						data-customin="x:0;y:0;z:0;rotationX:90;rotationY:0;rotationZ:0;scaleX:1;scaleY:1;skewX:0;skewY:0;opacity:0;transformPerspective:200;transformOrigin:50% 0%;"
 						data-customout="x:0;y:0;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:0.75;scaleY:0.75;skewX:0;skewY:0;opacity:0;transformPerspective:600;transformOrigin:50% 50%;"
 						data-speed="1000" data-start="3000" data-easing="Back.easeInOut"
-						data-endspeed="300" style="z-index: 4">Fully Responsive</div> <!-- LAYER NR. 5 -->
+						data-endspeed="300" style="z-index: 4">Fully Responsive</div> LAYER NR. 5
 					<div class="tp-caption medium_light_white customin customout"
 						data-x="20" data-y="200"
 						data-customin="x:0;y:100;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:1;scaleY:3;skewX:0;skewY:0;opacity:0;transformPerspective:600;transformOrigin:0% 0%;"
@@ -330,7 +322,7 @@
 						data-captionhidden="on" style="z-index: 5">
 						Bazaar, theme developers and everyday<br />slide-based displaying
 						solution, thousands of<br /> people use and love!
-					</div> <!-- LAYER NR. 6 -->
+					</div> LAYER NR. 6
 					<div class="tp-caption customin customout" data-x="20" data-y="300"
 						data-customin="x:0;y:100;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:1;scaleY:3;skewX:0;skewY:0;opacity:0;transformPerspective:600;transformOrigin:0% 0%;"
 						data-customout="x:0;y:0;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:0.75;scaleY:0.75;skewX:0;skewY:0;opacity:0;transformPerspective:600;transformOrigin:50% 50%;"
@@ -341,7 +333,7 @@
 							class="btn btn-info hidden-xs" href="#">Get Features</a>
 					</div>
 				</li>
-			</ul>
+ -->			</ul>
 		</div>
 	</div>
 	<!-- Slider ends -->

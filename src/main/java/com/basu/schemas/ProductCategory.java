@@ -69,7 +69,7 @@ public class ProductCategory
         CascadeType.ALL
     }, fetch = FetchType.EAGER)
     @JoinColumn(name = "SUBCATEGORIES_PRODUCTCATEGOR_0")
-    @OrderColumn(name = "SUBCATEGORIES_HJORDER")
+    @OrderColumn(name="PRODUCTCATEGORIES_SUBCATEGORIES")
     public List<ProductCategory> getSubCategories() {
         if (subCategories == null) {
             subCategories = new ArrayList<ProductCategory>();
