@@ -331,7 +331,8 @@ strong{
 /* SETTINGS FOR BANNER CONTAINERS */
 
 .tp-banner-container{
-	margin-bottom: 30px;
+	margin-top: 5px;
+	margin-bottom: 5px;
 	width:100%;
 	position:relative;
 	padding:0;

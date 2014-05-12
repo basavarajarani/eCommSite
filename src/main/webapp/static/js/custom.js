@@ -116,7 +116,7 @@ $(function() {
 					        } else if (!$(parent).is("ul") && $(parent).children("ul").length==1) {
 					            parent = $(parent.children("ul"));
 					        }
-					        $(parent).append("<li id='PC_"+pcid+"'><a href='products/category="+pcid+"'>"+pcname+"</a></li>");
+					        $(parent).append("<li id='PC_"+pcid+"'><a href='#/products/category="+pcid+"'>"+pcname+"</a></li>");
 					        
 					    });
 

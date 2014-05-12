@@ -35,6 +35,14 @@ public class ProductMapper {
 				productDto.setProductimage(product.getMainImage().getImageFullSizeUrl());
 				productDto.setThumbnails(product.getMainImage().getImageThumbnailUrl());
 			}
+			if (product.getAdditionalImages()!=null && product.getAdditionalImages().size()>0)
+			{
+				String additionalImages ="";
+				for (int i =0;i<product.getAdditionalImages().size();i++)
+					additionalImages+=product.getAdditionalImages().get(i).getImageFullSizeUrl()+"::";
+				additionalImages = additionalImages.substring(0, additionalImages.lastIndexOf("::")-1);
+				productDto.setAdditionalimages(additionalImages);
+			}
 			productDtoList.add(productDto);
 		}
 		return productDtoList;
@@ -63,6 +71,9 @@ public class ProductMapper {
 		w2uiProduct.getRecord().setShortDesc(product.getProductShortDesc());
 		w2uiProduct.getRecord().setProductname(product.getProductName());
 		w2uiProduct.getRecord().setPrice(product.getProductPrice().floatValue());
+		if (product.getMainImage()!=null){
+			w2uiProduct.getRecord().setMainImage(product.getMainImage().getImageFullSizeUrl());
+		}
 		String additionalImagesText = "";
 		if (product.getAdditionalImages()!=null && product.getAdditionalImages().size()>0) {
 			List<Image> additionalImages = product.getAdditionalImages();

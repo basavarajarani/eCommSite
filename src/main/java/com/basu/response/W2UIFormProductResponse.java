@@ -46,6 +46,7 @@ public class W2UIFormProductResponse {
 		private float weight; 
 		private String weightclass; 
 		private float width;
+		private String mainImage;
 		private String additionalImages;
 		
 		
@@ -121,6 +122,12 @@ public class W2UIFormProductResponse {
 		}
 		public void setWidth(float width) {
 			this.width = width;
+		}
+		public String getMainImage() {
+			return mainImage;
+		}
+		public void setMainImage(String mainImage) {
+			this.mainImage = mainImage;
 		} 
 		
 		

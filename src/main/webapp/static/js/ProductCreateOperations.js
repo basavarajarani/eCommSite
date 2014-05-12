@@ -29,6 +29,11 @@ $(function(){
 	$("#selectable").selectable({
 		selected: imageChooserSelected
 	});
+	
+
+	
+/*	$(".longDescription").cleditor();*/
+/*	CKEDITOR.replace('longDescription');*/
 
 	$('#productcreateeditform').w2form({
 		name : 'productcreateeditform',
@@ -58,7 +63,7 @@ $(function(){
 		}, {
 			name : 'longDesc',
 			type : 'text',
-			required : true
+			required : false
 		}, {
 			name : 'price',
 			type : 'float',
@@ -121,6 +126,7 @@ $(function(){
 			event.postData.weightclass = record.weightclass;
 			event.postData.width = record.width;
 			event.postData.cmd = this.cmd;
+			event.postData.longDesc = $(".longDesc").val();
 			event.postData.record = null;
 
 			/* Consolidate the photos into a single variable seperated by :: */
@@ -130,6 +136,10 @@ $(function(){
 			$.each(productImages, function(key,value){
 				event.postData.additionalimages += "::"+$(value).attr("src");
 			});
+			
+			var productMainImage = $("#mainimage").prop("src");
+			event.postData.mainimage=productMainImage;
+			
 
 			console.log("hello");
 		},
@@ -140,7 +150,11 @@ $(function(){
 				var additionalImagesText = data.record.additionalImages;
 
 				var additionalImages = additionalImagesText.split("::");
-
+				
+				/* Display the main image */
+				
+				$("#mainimage").attr('src',data.record.mainImage);
+				
 				/* Construct the additionalimage table */
 				var productimagestbody = $("#productimagetable tbody");
 				if (additionalImages != "")
@@ -158,6 +172,7 @@ $(function(){
 						"	   </tr>";
 						$(productimagestbody).append(imagetr);
 					});
+				$(".longDesc").jqteVal(data.record.longDesc);
 			}
 			console.log("hello");
 
@@ -177,6 +192,8 @@ $(function(){
 		}
 	});
 
+	
+	
 	var vars = [], hash;
 	var q = document.URL.split('?')[1];
 	if(q != undefined){
@@ -196,8 +213,8 @@ $(function(){
 		w2ui['productcreateeditform'].reload();
 		w2ui['productcreateeditform'].cmd = "mod-record";
 	}
-
-
+	
+	$(".longDesc").jqte({"status":true});
 
 });
 function productimageaddremove(button) {

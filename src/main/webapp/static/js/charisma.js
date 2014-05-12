@@ -102,9 +102,6 @@ function docReady(){
 		e.preventDefault();
 	});
 	
-	//rich text editor
-	$('.cleditor').cleditor();
-	
 	//datepicker
 	$('.datepicker').datepicker();
 	

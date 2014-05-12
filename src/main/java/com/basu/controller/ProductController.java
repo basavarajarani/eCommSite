@@ -52,7 +52,7 @@ public class ProductController {
 
 	@Secured ("ROLE_ADMIN")
 	@RequestMapping(value="getproductrecords", produces="application/json")
-	public @ResponseBody JqgridResponse<ProductDto> getProductRecords(
+	public @ResponseBody JqgridResponse<ProductDto> getProductRecordsGrid(
 			@RequestParam("_search") Boolean search,
 			@RequestParam(value="filters", required=false) String filters,
 			@RequestParam(value="page", required=false) Integer page,
@@ -98,7 +98,7 @@ public class ProductController {
 	}
 
 
-	@Transactional
+/*	@Transactional
 	@RequestMapping(value="/products/category={categoryId}/page={pageId}", method=RequestMethod.GET)
 	public @ResponseBody ModelAndView getProductsFromCategoryId(@PathVariable String categoryId, @PathVariable String pageId) {
 
@@ -121,6 +121,24 @@ public class ProductController {
 		modelAndView.addObject("pagenumber",Integer.valueOf(products.getNumber()+1).toString());
 
 		return modelAndView;
+	}*/
+	
+	@Transactional
+	@RequestMapping(value="/products/category={categoryId}/page={pageId}", method=RequestMethod.GET)
+	public @ResponseBody List<ProductDto> getProductsFromCategoryId(@PathVariable String categoryId, @PathVariable String pageId) {
+
+		System.out.println("Request for products from categoryid:"+categoryId);
+		int intPageId = Integer.valueOf(pageId).intValue();
+
+		Pageable pageRequest = new PageRequest(intPageId-1, 9);
+
+		Page<Product> products = this.eCommService.getAllProductsForACategory(categoryId,pageRequest);
+		//Page<Product> products = this.eCommService.getAllProducts(pageRequest);
+
+		List<ProductDto> productDtoList = ProductMapper.map(products);
+
+
+		return productDtoList;
 	}
 
 	@Transactional
@@ -155,7 +173,8 @@ public class ProductController {
 			@RequestParam(value="weight") float weight,
 			@RequestParam(value="weightclass") String weightClass,
 			@RequestParam(value="width") float width,
-			@RequestParam(value="additionalimages") String additionalImagesText){
+			@RequestParam(value="additionalimages") String additionalImagesText,
+			@RequestParam(value="mainimage") String mainImage){
 
 		System.out.println("cmd:"+cmd);
 		System.out.println("name:"+name);
@@ -163,7 +182,7 @@ public class ProductController {
 		System.out.println("cmd="+cmd+" name="+name+" recid="+recid+" category="+categoryHierarchy+" height="+height+
 				" length="+length+" lengthclass="+lengthClass+" longDesc="+longDesc+" price="+price+
 				" productname="+productName+" shortDesc="+shortDesc+" weight="+weight+" weightclass="+weightClass+
-				" width="+width);
+				" width="+width+" mainimage="+mainImage);
 
 		if (cmd.contains("mod-record")) {
 			/* Modify the record */
@@ -193,9 +212,12 @@ public class ProductController {
 			ProductCategory productCategory = this.eCommService.getProductCategoryFromHierarchy(categoryHierarchy);
 			product.setProductCategory(productCategory);
 			
-			/* Handle the images part */
+			/* Handle the main image part */
+			Image mainImageImg = new Image();
+			mainImageImg.setImageFullSizeUrl(mainImage);
+			product.setMainImage(mainImageImg);
 			
-			/* Handle Images */
+			/* Handle additional Images */
 			String []additionalImagesTextItems = additionalImagesText.split("::");
 			
 			if (additionalImagesTextItems.length > 0) 
