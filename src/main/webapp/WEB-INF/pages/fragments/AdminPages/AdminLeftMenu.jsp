@@ -21,11 +21,11 @@
 					class="hidden-tablet"> Orders</span></a></li>
 			<li><a class="ajax-link" href="#"><i class="icon-shopping-cart"></i><span
 					class="hidden-tablet"> Sales</span></a></li>
-			<li class="nav-header hidden-tablet">Settings</li>
+			<li class="nav-header hidden-tablet">Configuration</li>
 			<li><a class="ajax-link" href="#"> Google Settings</a></li>
+			<li><a href="<%=request.getContextPath()%>/SliderDesignerPage">Slider Designer</a></li>
 		</ul>
-		<label id="for-is-ajax" class="hidden-tablet" for="is-ajax"><input
-			id="is-ajax" type="checkbox"> Ajax on menu</label>
+
 	</div>
 	<!--/.well -->
 </div>

@@ -1,4 +1,4 @@
-var PHCApp = angular.module('PHCApp',['ngRoute']);
+var PHCApp = angular.module('PHCApp',['ngRoute','ngSanitize']);
 
 PHCApp.config(['$routeProvider','$locationProvider',function($routeProvider,$locationProvider){
 	$routeProvider.
@@ -36,8 +36,37 @@ PHCApp.config(['$routeProvider','$locationProvider',function($routeProvider,$loc
 		$scope.products = data;
 	}).
 	error();
+	
+	$http.get("getFeaturedProducts").
+	success(function(data, status, headers,config){
+		$scope.featuredproducts = data;
+	}).
+	error();
 })
-.controller('ProductsSingleItemController',function($scope, $routeParams,$location){
+.controller('ProductsSingleItemController',function($scope, $http, $routeParams,$location){
+	$http.get("products/id="+$routeParams.productId).
+	success(function(data,status,headers,config){
+		$scope.individualProduct = data;
+		attributes = data.attributes;
+		
+		var attributeSplit = attributes.split("::");
+		var attributesArray = new Array();
+		$.each(attributeSplit,function(key,value){
+			var singleAttrSplit = value.split("-->");
+			var attribute = new Object();
+			attribute.name = singleAttrSplit[0];
+			attribute.value = singleAttrSplit[1];
+			attributesArray.push(attribute);
+		});
+		$scope.productAttributes = attributesArray;
+		
+	}).
+	error();
+	$http.get("getFeaturedProducts").
+	success(function(data, status, headers,config){
+		$scope.featuredproducts = data;
+	}).
+	error();
 	
 })
 .controller('OtherWiseController', function($scope, $routeParams,$location){

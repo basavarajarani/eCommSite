@@ -184,88 +184,88 @@
 
 	</div>
 
-		<!-- Footer starts -->
-		<footer>
-			<div class="container">
+	<!-- Footer starts -->
+	<footer>
+		<div class="container">
 
-				<div class="row">
+			<div class="row">
 
-					<div class="col-md-4 col-sm-4">
-						<div class="fwidget">
+				<div class="col-md-4 col-sm-4">
+					<div class="fwidget">
 
-							<h4>
-								Oslon de<span class="color">'</span> Techno
-							</h4>
-							<hr />
-							<p>Duis leo risus, vehicula luctus nunc. Quiue rhoncus, a
-								sodales enim arcu quis turpis. Duis leo risus, condimentum ut
-								posuere ac, vehicula luctus nunc. Quisque rhoncus, a sodales
-								enim arcu quis turpis.</p>
+						<h4>
+							Oslon de<span class="color">'</span> Techno
+						</h4>
+						<hr />
+						<p>Duis leo risus, vehicula luctus nunc. Quiue rhoncus, a
+							sodales enim arcu quis turpis. Duis leo risus, condimentum ut
+							posuere ac, vehicula luctus nunc. Quisque rhoncus, a sodales enim
+							arcu quis turpis.</p>
 
-							<div class="social">
-								<a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
-								<a href="#" class="twitter"><i class="fa fa-twitter"></i></a> <a
-									href="#" class="google-plus"><i class="fa fa-google-plus"></i></a>
-								<a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a>
-								<a href="#" class="pinterest"><i class="fa fa-pinterest"></i></a>
-							</div>
+						<div class="social">
+							<a href="#" class="facebook"><i class="fa fa-facebook"></i></a> <a
+								href="#" class="twitter"><i class="fa fa-twitter"></i></a> <a
+								href="#" class="google-plus"><i class="fa fa-google-plus"></i></a>
+							<a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a> <a
+								href="#" class="pinterest"><i class="fa fa-pinterest"></i></a>
 						</div>
 					</div>
+				</div>
 
-					<div class="col-md-4 col-sm-4">
-						<div class="fwidget">
-							<h4>Categories</h4>
-							<hr />
-							<ul>
-								<li><a href="#">Sed eu leo orci, condimentum gravida
-										metus</a></li>
-								<li><a href="#">Etiam at nulla ipsum, in rhoncus purus</a></li>
-								<li><a href="#">Fusce vel magna faucibus felis dapibus
-										facilisis</a></li>
-								<li><a href="#">Vivamus scelerisque dui in massa</a></li>
-								<li><a href="#">Pellentesque eget adipiscing dui semper</a></li>
-							</ul>
-						</div>
+				<div class="col-md-4 col-sm-4">
+					<div class="fwidget">
+						<h4>Categories</h4>
+						<hr />
+						<ul>
+							<li><a href="#">Sed eu leo orci, condimentum gravida
+									metus</a></li>
+							<li><a href="#">Etiam at nulla ipsum, in rhoncus purus</a></li>
+							<li><a href="#">Fusce vel magna faucibus felis dapibus
+									facilisis</a></li>
+							<li><a href="#">Vivamus scelerisque dui in massa</a></li>
+							<li><a href="#">Pellentesque eget adipiscing dui semper</a></li>
+						</ul>
 					</div>
-
-
-
-					<div class="col-md-4 col-sm-4">
-						<div class="fwidget">
-
-							<h4>Get In Touch</h4>
-							<hr />
-							<div class="address">
-								<p>
-									<i class="fa fa-home color contact-icon"></i> 23 Grace Park Avenue
-								</p>
-								<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Springvale 3171</p>
-								<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Victoria, Australia</p>
-								<p>
-									<i class="fa fa-phone color contact-icon"></i> +61 435879852
-								</p>
-								<p>
-									<i class="fa fa-envelope color contact-icon"></i> <a
-										href="mailto:sales.support@presenshealthcare.com.au">sales.support@presenshealthcare.com.au</a>
-								</p>
-							</div>
-
-						</div>
-					</div>
-
 				</div>
 
 
 
-				<hr />
+				<div class="col-md-4 col-sm-4">
+					<div class="fwidget">
 
-				<div class="copy text-center">
-					Copyright 2014 &copy; - <a
-						href="#">Presens Health Care</a>
+						<h4>Get In Touch</h4>
+						<hr />
+						<div class="address">
+							<p>
+								<i class="fa fa-home color contact-icon"></i> 23 Grace Park
+								Avenue
+							</p>
+							<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Springvale 3171</p>
+							<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Victoria, Australia</p>
+							<p>
+								<i class="fa fa-phone color contact-icon"></i> +61 435879852
+							</p>
+							<p>
+								<i class="fa fa-envelope color contact-icon"></i> <a
+									href="mailto:sales.support@presenshealthcare.com.au">sales.support@presenshealthcare.com.au</a>
+							</p>
+						</div>
+
+					</div>
 				</div>
+
 			</div>
-		</footer>
-		<!-- Footer ends -->
+
+
+
+			<hr />
+
+			<div class="copy text-center">
+				Copyright 2014 &copy; - <a href="#">Presens Health Care</a>
+			</div>
+		</div>
+	</footer>
+	<!-- Footer ends -->
 
 	<!-- Scroll to top -->
 	<span class="totop"><a href="#"><i class="fa fa-chevron-up"></i></a></span>
@@ -311,6 +311,8 @@
 		src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular.min.js"></script>
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular-route.js"></script>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular-sanitize.js"></script>
 	<spring:url value="/static/js/phcmvw.js" var="phcmvwjs" />
 	<script src="${phcmvwjs}"></script>
 
@@ -318,6 +320,15 @@
 		var="jQuerySmartMenuJs" />
 	<!-- SmartMenus jQuery plugin -->
 	<script type="text/javascript" src="${jQuerySmartMenuJs}"></script>
+
+	<spring:url value="/static/js/jquery.elevateZoom-3.0.8.min.js"
+		var="elevatezoomjs" />
+	<script type="text/javascript" src="${elevatezoomjs }"></script>
+	<script type="text/javascript">
+		$(function() {
+			$("#zoom_01").elevateZoom();
+		});
+	</script>
 
 </body>
 </html>

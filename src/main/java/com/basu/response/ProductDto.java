@@ -28,12 +28,24 @@ public class ProductDto implements Serializable{
 	private String length;
 	private String height;
 	private String width;
+	private String attributes;
+	private boolean featuredproduct;
 	
 	
 	
 	
 	
 	
+	
+	
+	
+
+	public boolean isFeaturedproduct() {
+		return featuredproduct;
+	}
+	public void setFeaturedproduct(boolean featuredproduct) {
+		this.featuredproduct = featuredproduct;
+	}
 	public String getWeightclass() {
 		return weightclass;
 	}
@@ -136,5 +148,11 @@ public class ProductDto implements Serializable{
 	}
 	public void setThumbnails(String thumbnails) {
 		this.thumbnails = thumbnails;
+	}
+	public String getAttributes() {
+		return attributes;
+	}
+	public void setAttributes(String attributes) {
+		this.attributes = attributes;
 	}
 }

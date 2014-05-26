@@ -26,6 +26,9 @@
 		<c:when test="${module eq 'ProductCreationPage'}">
 			<jsp:include page="fragments/AdminPages/AdminProductCreatePage.jsp" />
 		</c:when>
+		<c:when test="${module eq 'FeaturedProductsPage'}">
+			<jsp:include page="fragments/AdminPages/AdminFeaturedProductsPage.jsp"/>
+		</c:when>
 	</c:choose>
 </body>
 </html>

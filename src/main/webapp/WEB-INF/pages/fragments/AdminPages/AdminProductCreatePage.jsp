@@ -7,9 +7,12 @@
 <html lang="en">
 <head>
 <jsp:include page="AdminHeadTag.jsp" />
+<spring:url value="/static/css/w2ui-1.3.2.min.css" var="w2uicss"/>
 <link rel="stylesheet" type="text/css"
-	href="http://w2ui.com/src/w2ui-1.3.min.css" />
-<script type="text/javascript" src="http://w2ui.com/src/w2ui-1.3.min.js"></script>
+	href="${w2uicss }" />
+
+<spring:url value="/static/js/w2ui-1.3.2.min.js" var="w2uijs"/>
+<script type="text/javascript" src="${w2uijs}"></script>
 
 </head>
 

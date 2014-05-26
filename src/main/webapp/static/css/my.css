@@ -448,3 +448,7 @@ a.imgbrowseclear {
 
   }
 }
+
+table#attributestable td {
+	text-align:center;
+}

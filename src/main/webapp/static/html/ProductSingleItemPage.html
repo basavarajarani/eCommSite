@@ -18,16 +18,19 @@
 						<div class="col-md-4 col-xs-5">
 
 							<div class="item-image">
-								<img src="img/items/2.png" alt="" />
+								<img id="zoom_01" ng-src="{{individualProduct.productimage}}"
+									alt="" data-zoom-image="{{individualProduct.productimage}}" />
 							</div>
 
 
+
+
 						</div>
-						<div class="col-md-5 col-xs-7">
+						<div class="col-md-5 col-xs-7 ">
 							<!-- Title -->
-							<h4>Apple iPhone 5G</h4>
+							<h4>{{individualProduct.name}}</h4>
 							<h5>
-								<strong>Price : $999</strong>
+								<strong>Price : {{individualProduct.price}}</strong>
 							</h5>
 							<p>
 								<strong>Shipping</strong> : Free
@@ -90,34 +93,10 @@
 					<!-- Description -->
 					<div class="tab-pane fade in active" id="tab1">
 						<h5>
-							<strong>Apple iPhone 5G</strong>
+							<strong>{{individualProduct.name}}</strong>
 						</h5>
-						<p>
-							Nulla facilisi. Sed justo dui, scelerisque ut consectetur vel,
-							eleifend id erat. Morbi auctor adipiscing tempor. Phasellus
-							condimentum rutrum aliquet. Quisque eu consectetur erat. Proin
-							rutrum, erat eget posuere semper, <em>arcu mauris posuere
-								tortor</em>, in commodo enim magna id massa. Suspendisse potenti.
-							Aliquam erat volutpat. Maecenas quis tristique turpis. Nulla
-							facilisi. Duis sed velit at <a href="#">magna sollicitudin
-								cursus</a> ac ultrices magna. Aliquam consequat, purus vitae auctor
-							ullamcorper, sem velit convallis quam, a pharetra justo nunc et
-							mauris. Vivamus diam diam, fermentum sed dapibus eget, egestas
-							sed eros. Lorem ipsum dolor sit amet, consectetur adipiscing
-							elit.
-						</p>
-						<h6>
-							<strong>Features</strong>
-						</h6>
-						<ul>
-							<li>Etiam adipiscing posuere justo, nec iaculis justo dictum
-								non</li>
-							<li>Cras tincidunt mi non arcu hendrerit eleifend</li>
-							<li>Aenean ullamcorper justo tincidunt justo aliquet et
-								lobortis diam faucibus</li>
-							<li>Maecenas hendrerit neque id ante dictum mattis</li>
-							<li>Vivamus non neque lacus, et cursus tortor</li>
-						</ul>
+
+						<div ng-bind-html="individualProduct.longDesc"></div>
 					</div>
 
 					<!-- Sepcs -->
@@ -128,37 +107,9 @@
 						</h5>
 						<table class="table table-striped">
 							<tbody>
-								<tr>
-									<td><strong>Name</strong></td>
-									<td>Apple iPhone 5G</td>
-								</tr>
-								<tr>
-									<td><strong>Brand</strong></td>
-									<td>Apple</td>
-								</tr>
-								<tr>
-									<td><strong>Modal</strong></td>
-									<td>Fifth Generation</td>
-								</tr>
-								<tr>
-									<td><strong>Memory</strong></td>
-									<td>2GB RAM</td>
-								</tr>
-								<tr>
-									<td><strong>Storage</strong></td>
-									<td>16GB, 32GB, 64GB</td>
-								</tr>
-								<tr>
-									<td><strong>Camera</strong></td>
-									<td>Front VGA, Read 8MP</td>
-								</tr>
-								<tr>
-									<td><strong>Processor</strong></td>
-									<td>Apple 1.25GHz Processor</td>
-								</tr>
-								<tr>
-									<td><strong>Battery</strong></td>
-									<td>30 Hours Standby</td>
+								<tr ng-repeat="attribute in productAttributes">
+									<td><strong>{{attribute.name}}</strong></td>
+									<td><strong>{{attribute.value}}</strong></td>
 								</tr>
 							</tbody>
 						</table>
@@ -221,6 +172,29 @@
 
 				</div>
 
+			</div>
+			<div class="col-md-3 col-md-pull-9">
+				<!-- Sidebar items (featured items)-->
+
+				<div class="sidebar-items">
+
+					<h5>Featured Items</h5>
+
+
+
+					<div class="sitem" ng-repeat="product in featuredproducts">
+						<div class="onethree-left">
+							<a href="single-item.html"><img ng-src="{{product.productimage}}" alt=""
+								class="img-responsive" /></a>
+						</div>
+						<div class="onethree-right">
+							<a href="single-item.html">{{product.name}}</a>
+							<p>{{product.shortDesc}}</p>
+							<p class="bold">${{product.price}}</p>
+						</div>
+						<div class="clearfix"></div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

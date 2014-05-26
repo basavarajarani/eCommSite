@@ -26,7 +26,8 @@
 <spring:url value="/static/css/jquery-te-1.4.0.css" var="cleditorcss" />
 
 <link href="${cleditorcss}" rel="stylesheet" />
-<link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+<link
+	href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
 <div class="row-fluid pull-left">
 	<div id="productcreateeditform" class="span12"
 		style="width: 100%; height: 550px;">
@@ -45,7 +46,7 @@
 			</div>
 			<div class="w2ui-label">Long Description</div>
 			<div class="w2ui-field">
-			<textarea class="longDesc" id="longDesc" name="longDesc"></textarea>
+				<textarea class="longDesc" id="longDesc" name="longDesc"></textarea>
 			</div>
 		</div>
 		<div class="w2ui-page page-1">
@@ -78,6 +79,12 @@
 			<div class="w2ui-field">
 				<input name="height" type="text" maxlength="4" size="4" />
 			</div>
+
+			<div class="w2ui-label">Featured Product?</div>
+			<div class="w2ui-field">
+				<input name="featuredproduct" type="checkbox" class="w2ui-toggle">
+			</div>
+
 		</div>
 		<div class="w2ui-page page-2">
 			<!-- 			<div class="w2ui-label">Image</div>
@@ -90,17 +97,21 @@
 					<td>Main Product Image</td>
 					<td>
 						<div class='choseimgdiv'>
-							<img id="mainimage"
-								src='static/images/no_image.gif' height='90'
-								width='120'> <a class='imgbrowseclear btn'
-								data-toggle='modal' onclick='imagechoosedialog(this)'>Browse
-								Image</a> | <a class='imgbrowseclear btn' onclick='clearImage(this)'>Clear
-								Image</a>
+							<img id="mainimage" src='static/images/no_image.gif' height='90'
+								width='120'>
+							<div>
+								<a class='imgbrowseclear btn' data-toggle='modal'
+									onclick='imagechoosedialog(this)'>Browse Image</a> | <a
+									class='imgbrowseclear btn' onclick='clearImage(this)'>Clear
+									Image</a>
+							</div>
 						</div>
 					</td>
 				</tr>
 			</table>
 
+		</div>
+		<div class="w2ui-page page-3">
 			<table id='productimagetable' style='width: 100%;'>
 				<thead style='background: grey; color: white;'>
 					<tr>
@@ -108,12 +119,31 @@
 						<th style='width: 50%;'>Action</th>
 					</tr>
 				</thead>
-				<tbody style='align: center;'>
+				<tbody style='text-align: center;'>
 					<tr>
 						<td></td>
 						<td><button type='button'
 								onclick='productimageaddremove(this)'>Add</button>
 					</tr>
+			</table>
+		</div>
+		<div class="w2ui-page page-4">
+			<table id="attributestable" border="1" style="width: 100%;">
+				<thead style="background: grey; color: white;">
+					<tr>
+						<th>Attribute Name</th>
+						<th>Attribute Value</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody style='text-align: center;'>
+					<tr>
+						<td></td>
+						<td></td>
+						<td><button type='button' onclick='addremoveattribute(this)'>Add
+								Attribute</button></td>
+					</tr>
+				</tbody>
 			</table>
 		</div>
 
@@ -215,8 +245,8 @@
 </div>
 
 <script type="text/javascript">
-	var contextPath='<%=request.getContextPath()%>';
-	
+	var contextPath='<%=request.getContextPath()%>
+	';
 </script>
 
 <spring:url value="/static/js/ProductCreateOperations.js"

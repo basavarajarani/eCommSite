@@ -1,10 +1,12 @@
 package com.basu.controller;
 
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.WordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,11 +21,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.basu.common.JqgridFilter;
+import com.basu.common.JqgridObjectMapper;
 import com.basu.mappers.ProductMapper;
 import com.basu.response.JqgridResponse;
 import com.basu.response.ProductDto;
 import com.basu.response.StatusResponse;
 import com.basu.response.W2UIFormProductResponse;
+import com.basu.schemas.Attributes;
 import com.basu.schemas.Image;
 import com.basu.schemas.Product;
 import com.basu.schemas.ProductCategory;
@@ -51,24 +56,24 @@ public class ProductController {
 	}
 
 	@Secured ("ROLE_ADMIN")
-	@RequestMapping(value="getproductrecords", produces="application/json")
-	public @ResponseBody JqgridResponse<ProductDto> getProductRecordsGrid(
+	@RequestMapping(value="getProductRecordsJqGrid", produces="application/json")
+	public @ResponseBody JqgridResponse<ProductDto> getProductRecordsJqGrid(
 			@RequestParam("_search") Boolean search,
 			@RequestParam(value="filters", required=false) String filters,
 			@RequestParam(value="page", required=false) Integer page,
 			@RequestParam(value="rows", required=false) Integer rows,
 			@RequestParam(value="sidx", required=false) String sidx,
-			@RequestParam(value="sord", required=false) String sord)
+			@RequestParam(value="sord", required=false) String sord) throws Exception
 
 			{
-		System.out.println("Invoking getProductRecords () for page:"+page.intValue()+" rows:"+rows.intValue());
+		System.out.println("Invoking getProductRecords () for page:"+page.intValue()+" rows:"+rows.intValue()+" sidx:"+sidx+" sord:"+sord+" filters:"+filters);
 		Pageable pageRequest = new PageRequest(page-1, rows);
 
 		if (search==true) {
-			return getFilteredProductRecords(filters, pageRequest);
+			return getFilteredProductRecords(filters, sidx, sord, pageRequest);
 		}
 
-		Page<Product> products = this.eCommService.getAllProducts(pageRequest);
+		Page<Product> products = this.eCommService.getAllProducts(pageRequest,sidx,sord);
 		List<ProductDto> productDtoList = ProductMapper.map(products);
 		JqgridResponse<ProductDto> jqGridResponse = new JqgridResponse<ProductDto>();
 		jqGridResponse.setRows(productDtoList);
@@ -79,10 +84,29 @@ public class ProductController {
 
 			}
 
-	private JqgridResponse<ProductDto> getFilteredProductRecords(String filters,
-			Pageable pageRequest) {
+	private JqgridResponse<ProductDto> getFilteredProductRecords(String filters,String sidx, String sord,
+			Pageable pageRequest) throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+		
+		String productName = null;
+
+		JqgridFilter jqgridFilter = JqgridObjectMapper.map(filters);
+		String functionName = "findBy";
+		String parameterValue = "";
+		for (JqgridFilter.Rule rule: jqgridFilter.getRules()) {
+				functionName += WordUtils.capitalize(rule.getField())+"Containing";
+				parameterValue = rule.getData();
+		}
+		
+		Page<Product> products = this.eCommService.getAllProducts(pageRequest,sidx,sord,functionName,parameterValue);
+		List<ProductDto> productDtoList = ProductMapper.map(products);
+		JqgridResponse<ProductDto> jqGridResponse = new JqgridResponse<ProductDto>();
+		jqGridResponse.setRows(productDtoList);
+		jqGridResponse.setRecords(Long.valueOf(products.getTotalElements()).toString());
+		jqGridResponse.setTotal(Integer.valueOf(products.getTotalPages()).toString());
+		jqGridResponse.setPage(Integer.valueOf(products.getNumber()+1).toString());
+		return jqGridResponse;
+		
 	}
 
 	@Secured({"ROLE_ADMIN"})
@@ -140,7 +164,25 @@ public class ProductController {
 
 		return productDtoList;
 	}
+	
+	@Transactional
+	@RequestMapping(value="getFeaturedProducts", method=RequestMethod.GET)
+	public @ResponseBody List<ProductDto> getFeaturedProducts(){
+		Pageable pageRequest = new PageRequest(0, 9);
+		Page<Product> products = this.eCommService.getAllFeaturedProducts(pageRequest);
+		List<ProductDto> productDtoList = ProductMapper.map(products);
+		return productDtoList;
+	}
 
+	@Transactional
+	@RequestMapping(value="/products/id={productId}", method=RequestMethod.GET)
+	public @ResponseBody ProductDto getProductFromProductId(@PathVariable int productId){
+		Product product = this.eCommService.getProductById(productId);
+		ProductDto productDto = ProductMapper.map(product);
+		return productDto;
+		
+	}
+	
 	@Transactional
 	@Secured({"ROLE_ADMIN"})
 	@RequestMapping(value="getProductById", method=RequestMethod.GET, produces="application/json")
@@ -174,7 +216,9 @@ public class ProductController {
 			@RequestParam(value="weightclass") String weightClass,
 			@RequestParam(value="width") float width,
 			@RequestParam(value="additionalimages") String additionalImagesText,
-			@RequestParam(value="mainimage") String mainImage){
+			@RequestParam(value="mainimage") String mainImage,
+			@RequestParam(value="attributes") String attributes,
+			@RequestParam(value="featuredproduct") boolean featuredProduct){
 
 		System.out.println("cmd:"+cmd);
 		System.out.println("name:"+name);
@@ -242,6 +286,26 @@ public class ProductController {
 				
 			}
 			
+			/* Handle the attributes */
+			if (!attributes.isEmpty()){
+				List<Attributes> productAttributes = new ArrayList<Attributes>();
+				String[]attributeList = attributes.split("::");
+				for (int i =0;i<attributeList.length;i++){
+					String []attributeValue = attributeList[i].split("-->");
+					Attributes attribute = new Attributes();
+					attribute.setName(attributeValue[0]);
+					attribute.setValue(attributeValue[1]);
+					productAttributes.add(attribute);
+				}
+				if (product.getAttributes()!=null){
+					product.getAttributes().clear();
+					product.getAttributes().addAll(productAttributes);
+				} else {
+					product.setAttributes(productAttributes);
+				}
+			}
+			product.setFeaturedProduct(featuredProduct);
+			
 
 			String result = this.eCommService.addProductRecord(product);
 			List<String> returnString = new ArrayList<String>();
@@ -301,6 +365,22 @@ public class ProductController {
 			}
 			product.setAdditionalImages(additionalImages);
 		}
+		
+		/* Handle the attributes */
+		if (!attributes.isEmpty()){
+			List<Attributes> productAttributes = new ArrayList<Attributes>();
+			String[]attributeList = attributes.split("::");
+			for (int i =0;i<attributeList.length;i++){
+				String []attributeValue = attributeList[i].split("-->");
+				Attributes attribute = new Attributes();
+				attribute.setName(attributeValue[0]);
+				attribute.setValue(attributeValue[1]);
+				productAttributes.add(attribute);
+			}
+			product.setAttributes(productAttributes);
+		}
+		
+		product.setFeaturedProduct(featuredProduct);
 
 		String result = this.eCommService.addProductRecord(product);
 		List<String> returnString = new ArrayList<String>();

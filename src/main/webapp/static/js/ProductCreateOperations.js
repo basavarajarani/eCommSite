@@ -29,11 +29,11 @@ $(function(){
 	$("#selectable").selectable({
 		selected: imageChooserSelected
 	});
-	
 
-	
-/*	$(".longDescription").cleditor();*/
-/*	CKEDITOR.replace('longDescription');*/
+
+
+	/*	$(".longDescription").cleditor();*/
+	/*	CKEDITOR.replace('longDescription');*/
 
 	$('#productcreateeditform').w2form({
 		name : 'productcreateeditform',
@@ -101,6 +101,10 @@ $(function(){
 		}, {
 			name : 'additionalimages',
 			type : 'text'
+		},{
+			name : 'featuredproduct',
+			type : 'checkbox',
+			required : false
 		} ],
 		tabs : [ {
 			id : 'tab1',
@@ -110,8 +114,14 @@ $(function(){
 			caption : 'Data'
 		}, {
 			id : 'tab3',
-			caption : 'Images'
-		} ],
+			caption : 'Main Image'
+		}, {
+			id : 'tab4',
+			caption : ' Additional Images'
+		}, {
+			id : 'tab5',
+			caption : 'Attributes'
+		}],
 		onSubmit: function(event) {
 			var record = event.postData.record;
 			event.postData.category = record.category;
@@ -125,6 +135,7 @@ $(function(){
 			event.postData.weight = record.weight;
 			event.postData.weightclass = record.weightclass;
 			event.postData.width = record.width;
+			event.postData.featuredproduct = record.featuredproduct;
 			event.postData.cmd = this.cmd;
 			event.postData.longDesc = $(".longDesc").val();
 			event.postData.record = null;
@@ -136,12 +147,30 @@ $(function(){
 			$.each(productImages, function(key,value){
 				event.postData.additionalimages += "::"+$(value).attr("src");
 			});
-			
+
 			var productMainImage = $("#mainimage").prop("src");
 			event.postData.mainimage=productMainImage;
-			
 
-			console.log("hello");
+			/* Consolidate the attributes into a single variable seperated by :: */
+			productAttributesTrs = $("#attributestable tbody").find("tr");
+			event.postData.attributes = '';
+			$.each(productAttributesTrs, function(key, value){
+				tr = value;
+				allTds = $(tr).children();
+				firstTd = $(allTds).first();
+				secondTd = $(firstTd).next();
+				thirdTd = $(secondTd).next();
+
+				if ($(thirdTd).find("button").html()!="Add Attribute"){
+					if (event.postData.attributes=='')
+						event.postData.attributes+= $(firstTd).find("input").val()+"-->"+$(secondTd).find("textarea").val();
+					else
+						event.postData.attributes+= "::"+$(firstTd).find("input").val()+"-->"+$(secondTd).find("textarea").val();
+				}
+			});
+
+
+			console.log("Exiting W2UI onSubmit");
 		},
 		onLoad : function(event) {
 			if (event.status == "success") {
@@ -150,11 +179,11 @@ $(function(){
 				var additionalImagesText = data.record.additionalImages;
 
 				var additionalImages = additionalImagesText.split("::");
-				
+
 				/* Display the main image */
-				
+
 				$("#mainimage").attr('src',data.record.mainImage);
-				
+
 				/* Construct the additionalimage table */
 				var productimagestbody = $("#productimagetable tbody");
 				if (additionalImages != "")
@@ -167,12 +196,28 @@ $(function(){
 						"							</div>" +
 						"			</td>" +
 						"			<td>" +
-						"			<button type='button'onclick='productimageaddremove(this)'>Remove</button>" +
+						"			<button type='button'onclick='productimageaddremove(this)'>Remove Image</button>" +
 						"			</td>" +
 						"	   </tr>";
-						$(productimagestbody).append(imagetr);
+						$(imagetr).prependTo($(productimagestbody));
 					});
 				$(".longDesc").jqteVal(data.record.longDesc);
+				
+				/* Construct the attributes table */
+				var attributesTableBody = $("#attributestable tbody");
+				var attributes = data.record.attributes;
+				var attributesList = attributes.split("::");
+				if (attributes!=""){
+					$.each(attributesList, function(key,value){
+						var attributeParts = value.split("-->");
+						var attributeTr = "<tr>" + 
+						"<td><div><input type='text' value='"+attributeParts[0]+"'/></div></td>"+
+						"<td><div><textarea>"+attributeParts[1]+"</textarea></div></td>" +
+						"<td><button type='button' onclick='addremoveattribute(this)'>Remove Attribute</button></td>"+
+						"</tr>";
+						$(attributeTr).prependTo($(attributesTableBody));
+					});
+				}
 			}
 			console.log("hello");
 
@@ -192,8 +237,8 @@ $(function(){
 		}
 	});
 
-	
-	
+
+
 	var vars = [], hash;
 	var q = document.URL.split('?')[1];
 	if(q != undefined){
@@ -213,14 +258,43 @@ $(function(){
 		w2ui['productcreateeditform'].reload();
 		w2ui['productcreateeditform'].cmd = "mod-record";
 	}
-	
+
 	$(".longDesc").jqte({"status":true});
 
 });
-function productimageaddremove(button) {
-	if (button.innerHTML =="Add")
+function addremoveattribute(button) {
+	if (button.innerHTML == "Add Attribute")
 	{
-		button.innerHTML = "Remove";
+		button.innerHTML = "Remove Attribute";
+		var parentTd = $(button).parent();
+		var textTd = $(parentTd).prev();
+		var attributeTd = $(textTd).prev();
+		$(attributeTd).append(
+				"<div>" +
+				"<input type='text' id='attribute1'/>" +
+				"</div>"
+		);
+		$(textTd).append(
+				"<div>" +
+				"<textarea id='text1'/> " +
+				"</div>"
+		);
+		var parentTr = $(parentTd).parent();
+		var parentTable = $(parentTr).parent();
+		$(parentTable).append("<tr><td></td><td></td><td><button type='button' onclick='addremoveattribute(this)'>Add Attribute</button></td>");		
+	}
+	else
+	{
+		button.innerHTML = "Add Attribute";
+		var parentTd = $(button).parent();
+		var parentTr = $(parentTd).parent();
+		$(parentTr).remove();
+	}
+}
+function productimageaddremove(button) {
+	if (button.innerHTML =="Add Image")
+	{
+		button.innerHTML = "Remove Image";
 		var parentTd = $(button).parent();
 		var neighbouringTd = $(parentTd).prev();
 		$(neighbouringTd).append(
@@ -231,11 +305,11 @@ function productimageaddremove(button) {
 		);
 		var parentTr = $(parentTd).parent();
 		var parentTable = $(parentTr).parent();
-		$(parentTable).append("<tr><td></td><td><button type='button'onclick='productimageaddremove(this)'>Add</button></td>");
+		$(parentTable).append("<tr><td></td><td><button type='button' onclick='productimageaddremove(this)'>Add Image</button></td>");
 	}
 	else
 	{
-		button.innerHTML = "Add";
+		button.innerHTML = "Add Image";
 		var parentTd = $(button).parent();
 		var parentTr = $(parentTd).parent();
 		$(parentTr).remove();

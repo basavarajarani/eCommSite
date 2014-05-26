@@ -40,17 +40,32 @@ public class W2UIFormProductResponse {
 		private float length; 
 		private String lengthclass; 
 		private String longDesc; 
-		private float price; 
+		private double price; 
 		private String productname; 
 		private String shortDesc; 
-		private float weight; 
+		private double weight; 
 		private String weightclass; 
 		private float width;
 		private String mainImage;
 		private String additionalImages;
+		private String attributes;
+		private boolean featuredproduct;
 		
 		
 		
+		
+		public boolean isFeaturedproduct() {
+			return featuredproduct;
+		}
+		public void setFeaturedproduct(boolean featuredproduct) {
+			this.featuredproduct = featuredproduct;
+		}
+		public String getAttributes() {
+			return attributes;
+		}
+		public void setAttributes(String attributes) {
+			this.attributes = attributes;
+		}
 		public String getAdditionalImages() {
 			return additionalImages;
 		}
@@ -87,10 +102,10 @@ public class W2UIFormProductResponse {
 		public void setLongDesc(String longDesc) {
 			this.longDesc = longDesc;
 		}
-		public float getPrice() {
+		public double getPrice() {
 			return price;
 		}
-		public void setPrice(float price) {
+		public void setPrice(double price) {
 			this.price = price;
 		}
 		public String getProductname() {
@@ -105,7 +120,7 @@ public class W2UIFormProductResponse {
 		public void setShortDesc(String shortDesc) {
 			this.shortDesc = shortDesc;
 		}
-		public float getWeight() {
+		public double getWeight() {
 			return weight;
 		}
 		public void setWeight(float weight) {

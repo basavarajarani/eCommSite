@@ -37,21 +37,21 @@ $(function() {
 
 	$("#grid").jqGrid(
 			{
-				url : "getproductrecords",
+				url : "getProductRecordsJqGrid",
 				datatype : 'json',
 				mtype : 'GET',
 				colNames : [ 'Id', 'Name', 'Category', 'Price', 'Weight',
 				             'Short Description', 'Long Description',
-				             'Update Date', 'Stock', 'Product Image', 'Additional Images' ],
+				             'Update Date', 'Stock', 'Featured Product?','Product Image', 'Additional Images' ],
 				             colModel : [ {
 				            	 name : 'id',
-				            	 index : 'id',
+				            	 index : 'hjid',
 				            	 width : 55,
 				            	 editable : false,
 				            	 hidden : true
 				             }, {
 				            	 name : 'name',
-				            	 index : 'name',
+				            	 index : 'productName',
 				            	 width : 100,
 				            	 editable : true,
 				            	 hidden : false,
@@ -62,7 +62,8 @@ $(function() {
 				            	 width : 50,
 				            	 editable : true,
 				            	 hidden : false,
-				            	 search : true,
+				            	 search : false,
+				            	 sortable: false,
 				            	 edittype: 'select',
 				            	 editoptions: {dataUrl:'get_productCategory_list', buildSelect:function (data) {
 
@@ -78,12 +79,15 @@ $(function() {
 				            	 }}
 				             }, {
 				            	 name : 'price',
-				            	 index : 'price',
+				            	 index : 'productPrice',
 				            	 width : 20,
 				            	 editable : true,
 				            	 align : 'center',
 				            	 hidden : false,
-				            	 search : true
+				            	 search : false,
+				            	 sortable : false,
+				            	 formatter : 'currency',
+				            	 formatoptions : {decimalPlaces:2, prefix:"$"}
 				             }, {
 				            	 name : 'weight',
 				            	 index : 'weight',
@@ -130,7 +134,22 @@ $(function() {
 				            	 width : 30,
 				            	 editable : false,
 				            	 hidden : false,
-				            	 search : false
+				            	 search : false,
+				            	 sortable: false
+				             }, {
+				            	 name : 'featuredproduct',
+				            	 index : 'featuredProduct',
+				            	 width: 10,
+				            	 editable: true,
+				            	 hidden : false,
+				            	 align: 'center',
+				            	 search : false,
+				            	 formatter : function (cellValue, options, rowObject) {
+				            		 if (cellValue == false)
+				            			 return "No";
+				            		 else
+				            			 return "Yes";
+				            	 }
 				             }, {
 				            	 name : 'productimage',
 				            	 index : 'productimage',
@@ -139,6 +158,7 @@ $(function() {
 				            	 hidden : false,
 				            	 align : 'center',
 				            	 search : false,
+				            	 sortable : false,
 				            	 formatter : function (cellValue, options, rowObject) {
 				            		 return "<img src='"+cellValue+"' width='120' height='90'>";
 				            	 }
@@ -158,7 +178,7 @@ $(function() {
 				             autowidth : true,
 				             rownumbers : true,
 				             pager : '#pager',
-				             sortname : 'id',
+				             sortname : 'hjid',
 				             viewrecords : true,
 				             sortorder : "asc",
 				             caption : "Products",

@@ -1,11 +1,18 @@
 package com.basu.service;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.WordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -165,10 +172,15 @@ public class ECommService {
 		return countrySelectString;
 	}
 
-	public Page<Product> getAllProducts(Pageable pageRequest) {
+	public Page<Product> getAllProducts(Pageable pageRequest, String sidx, String sord) {
 		// TODO Auto-generated method stub
 		System.out.println("retrieving all Products from DB");
-		return this.productRepository.findAll(pageRequest);
+		
+/*		String functionName = "findBy"+WordUtils.initials(sidx)+"OrderBy"+WordUtils.initials(sidx)+WordUtils.capitalize(sord);
+		Class productRepositoryClass = this.productRepository.getClass();
+		Method method = productRepositoryClass.getMethod(functionName, null);*/
+		final PageRequest pageReq = new PageRequest(pageRequest.getPageNumber(),pageRequest.getPageSize(),new Sort(new Order(Direction.valueOf(sord.toUpperCase()),sidx)));
+		return this.productRepository.findAll(pageReq);
 	}
 
 	public ProductCategory getProductCategoryFromHierarchy(
@@ -202,6 +214,43 @@ public class ECommService {
 	public Product getProductById(int recid) {
 		// TODO Auto-generated method stub
 		return this.productRepository.findOne(new Long(recid));
+	}
+
+	public Page<Product> getAllProducts(Pageable pageRequest, String sidx,
+			String sord, String functionName,String parameterValue) throws Exception {
+		// TODO Auto-generated method stub
+		
+		System.out.println("Invoking function:"+functionName+ " with param:"+parameterValue);
+		Method method = null;
+		
+		Method[] methods = ProductRepository.class.getMethods();
+
+		for(Method method1 : methods){
+		    System.out.println("method = " + method1.getName());
+		}
+		try {
+		Class productRepositoryClass = Class.forName("com.basu.repository.ProductRepository");
+		 method = productRepositoryClass.getMethod(functionName, String.class, Pageable.class);
+		} catch (Exception e){
+			e.printStackTrace();
+			throw e;
+		}
+		final PageRequest pageReq = new PageRequest(pageRequest.getPageNumber(),pageRequest.getPageSize(),new Sort(new Order(Direction.valueOf(sord.toUpperCase()),sidx)));
+		System.out.println("Hello");
+		Page<Product> pageReturn = null;
+		try{
+		 pageReturn = (Page<Product>) method.invoke(productRepository,parameterValue,pageReq);
+		} catch(Exception e){
+			e.printStackTrace();
+			throw e;
+		}
+		System.out.println("number of records:"+pageReturn.getNumberOfElements());
+		return pageReturn;
+	}
+
+	public Page<Product> getAllFeaturedProducts(Pageable pageRequest) {
+		// TODO Auto-generated method stub
+		return this.productRepository.findByFeaturedProductTrue(pageRequest);
 	}
 
 }

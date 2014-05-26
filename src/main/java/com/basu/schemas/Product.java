@@ -70,10 +70,36 @@ public class Product
     protected Image mainImage;
     protected List<Image> additionalImages;
     protected ProductDimensions productDimensions;
+    protected List<Attributes> attributes;
+    protected boolean featuredProduct=false;
     
     
     
-    @OneToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    
+    @Basic
+    @Column(name="FEATUREDPRODUCT" )
+    public boolean isFeaturedProduct() {
+		return featuredProduct;
+	}
+
+	public void setFeaturedProduct(boolean featuredProduct) {
+		this.featuredProduct = featuredProduct;
+	}
+
+	@OneToMany(orphanRemoval = true, fetch=FetchType.EAGER, targetEntity = Attributes.class, cascade = {
+        CascadeType.ALL
+    })
+    @JoinColumn(name="ATTRIBUTELIST_PRODUCT_ID")
+    @OrderColumn(name="ATTRIBUTELIST_PRODUCT")
+    public List<Attributes> getAttributes() {
+		return attributes;
+	}
+
+	public void setAttributes(List<Attributes> attributes) {
+		this.attributes = attributes;
+	}
+
+	@OneToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
     @JoinColumn(name="product_dimension_id")
     public ProductDimensions getProductDimensions() {
 		return productDimensions;
@@ -271,7 +297,7 @@ public class Product
      *     
      */
     @Basic
-    @Column(name = "PRODUCTLONGDESC", length = 255)
+    @Column(name = "PRODUCTLONGDESC", length = 65536)
     public String getProductLongDesc() {
         return productLongDesc;
     }
