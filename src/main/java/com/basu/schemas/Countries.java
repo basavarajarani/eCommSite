@@ -10,16 +10,20 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Entity(name="Countries")
-@Table(name="Countries")
+@Entity(name="Country")
+@Table(name="COUNTRY")
 public class Countries implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected int id;
 	protected String country_code;
 	protected String country_name;
 	
 	@Id
-	@Column( name="id")
+	@Column( name="ID")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public int getId() {
 		return id;
@@ -29,7 +33,7 @@ public class Countries implements Serializable
 	}
 	
 	@Basic
-	@Column(name="country_code")
+	@Column(name="COUNTRY_CODE")
 	public String getCountry_code() {
 		return country_code;
 	}
@@ -40,7 +44,7 @@ public class Countries implements Serializable
 	}
 	
 	@Basic
-	@Column(name="country_name")
+	@Column(name="COUNTRY_NAME")
 	public String getCountry_name() {
 		return country_name;
 	}

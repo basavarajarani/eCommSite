@@ -1,7 +1,8 @@
 package com.basu.mappers;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.domain.Page;
 
@@ -34,8 +35,8 @@ public class UserMapper {
 		return userDto;
 	}
 	
-	public static List<UserDto> map(Page<User> userList){
-		List<UserDto> userDtoList = new ArrayList<UserDto>();
+	public static Set<UserDto> map(Page<User> userList){
+		Set<UserDto> userDtoList = new HashSet<UserDto>();
 		for (User user : userList){
 			userDtoList.add(map(user));
 		}

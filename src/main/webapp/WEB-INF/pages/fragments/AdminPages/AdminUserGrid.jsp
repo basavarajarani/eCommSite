@@ -36,7 +36,7 @@
 <spring:url value="/static/js/UserOperations.js" var="UserOperationsJS"/>
 <script src="${UserOperationsJS}"></script>
 
-<div class="row-fluid">
+<div class="row">
 	<div id='jqgrid' class="span12">
 		<table id='grid'></table>
 		<div id='pager'></div>

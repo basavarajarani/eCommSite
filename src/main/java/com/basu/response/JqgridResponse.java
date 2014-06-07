@@ -2,6 +2,7 @@ package com.basu.response;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 /**
  * A POJO representing a jQgrid's jsonReader property. 
@@ -27,12 +28,12 @@ public class JqgridResponse<T extends Serializable> {
 	/**
 	 * Contains the actual data
 	 */
-	private List<T> rows;
+	private Set<T> rows;
 
 	public JqgridResponse() {}
 	
 	public JqgridResponse(String page, String total, String records,
-			List<T> rows) {
+			Set<T> rows) {
 		super();
 		this.page = page;
 		this.total = total;
@@ -58,10 +59,10 @@ public class JqgridResponse<T extends Serializable> {
 	public void setRecords(String records) {
 		this.records = records;
 	}
-	public List<T> getRows() {
+	public Set<T> getRows() {
 		return rows;
 	}
-	public void setRows(List<T> rows) {
+	public void setRows(Set<T> rows) {
 		this.rows = rows;
 	}
 

@@ -1,7 +1,8 @@
 package com.basu.mappers;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.domain.Page;
 
@@ -27,8 +28,8 @@ public class ProductCategoryMapper {
 		return productCategoryDto;
 	}
 	
-	public static List<ProductCategoryDto> map(Page<ProductCategory> productCategoryList){
-		List<ProductCategoryDto> prodCatDtoList = new ArrayList<ProductCategoryDto>();
+	public static Set<ProductCategoryDto> map(Page<ProductCategory> productCategoryList){
+		Set<ProductCategoryDto> prodCatDtoList = new HashSet<ProductCategoryDto>();
 		for (ProductCategory pc : productCategoryList){
 			prodCatDtoList.add(map(pc));
 		}

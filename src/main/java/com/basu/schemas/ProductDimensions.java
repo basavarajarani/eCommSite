@@ -17,6 +17,11 @@ import javax.persistence.Table;
 @Table(name="PRODUCTDIMENSIONS")
 public class ProductDimensions implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	protected int id;
 
 	public enum LengthClass {
@@ -46,6 +51,7 @@ public class ProductDimensions implements Serializable {
 
 	
 	@Id
+	@Column(name="ID")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public int getId() {
 		return id;

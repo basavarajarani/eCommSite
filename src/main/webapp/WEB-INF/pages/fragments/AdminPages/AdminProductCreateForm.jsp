@@ -28,7 +28,7 @@
 <link href="${cleditorcss}" rel="stylesheet" />
 <link
 	href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
-<div class="row-fluid pull-left">
+<div class="row">
 	<div id="productcreateeditform" class="span12"
 		style="width: 100%; height: 550px;">
 		<div class="w2ui-page page-0">
@@ -140,8 +140,7 @@
 					<tr>
 						<td></td>
 						<td></td>
-						<td><button type='button' onclick='addremoveattribute(this)'>Add
-								Attribute</button></td>
+						<td><button type='button' onclick='addremoveattribute(this)'>Add Attribute</button></td>
 					</tr>
 				</tbody>
 			</table>
@@ -158,10 +157,10 @@
 
 
 <div title="Image Chooser Dialog" id="ImageChoose"
-	class="imagedialogue container-fluid">
+	class="imagedialogue container">
 	<img src="<%=request.getContextPath()%>/static/images/Loading.gif"
 		id="loadingimage" style="text-align: center;">
-	<div class="row-fluid">
+	<div class="row">
 		<div id="photogalleryheading" style="text-align: center;">Select
 			the Image</div>
 		<div id="photopart" class="span4">
@@ -221,7 +220,7 @@
 		<h3 id="myModalLabel">Choose the image</h3>
 	</div>
 	<div class="modal-body">
-		<div class="row-fluid">
+		<div class="row">
 			<div class="span3">
 				<ul>
 					<li ng-repeat='album in albums'><a

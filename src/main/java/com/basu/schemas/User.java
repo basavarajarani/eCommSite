@@ -1,8 +1,10 @@
 package com.basu.schemas;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -28,7 +30,11 @@ public class User
 {
 
 
-    protected String userEmail;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	protected String userEmail;
     protected String userName;
     protected String userPassword;
     protected String userFirstName;
@@ -44,13 +50,13 @@ public class User
     protected boolean enabled;
     protected boolean userEmailVerified;
     protected String userVerificationCode;
-    protected List<Order> orderList;
+    protected Set<SalesOrder> orderList;
     protected Long hjid;
     protected Authorities authority;
  
     
     @OneToOne(fetch=FetchType.EAGER, cascade= CascadeType.ALL)
-    @JoinColumn( name="authority_id")
+    @JoinColumn( name="USER_AUTHORITY_ID")
 	public Authorities getAuthority() {
 		return authority;
 	}
@@ -527,13 +533,14 @@ public class User
      * 
      * 
      */
-    @OneToMany(targetEntity = Order.class, cascade = {
+    @OneToMany(targetEntity = SalesOrder.class, cascade = {
         CascadeType.ALL
     })
-    @JoinColumn(name = "ORDERLIST_USER__HJID")
-    public List<Order> getOrderList() {
+    @JoinColumn(name = "SALESORDER_USER_ID")
+    @OrderColumn
+    public Set<SalesOrder> getOrderList() {
         if (orderList == null) {
-            orderList = new ArrayList<Order>();
+            orderList = new HashSet<SalesOrder>();
         }
         return this.orderList;
     }
@@ -542,7 +549,7 @@ public class User
      * 
      * 
      */
-    public void setOrderList(List<Order> orderList) {
+    public void setOrderList(Set<SalesOrder> orderList) {
         this.orderList = orderList;
     }
 

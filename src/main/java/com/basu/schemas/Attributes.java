@@ -11,15 +11,19 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity(name="Attributes")
-@Table(name="Attributes")
+@Table(name="ATTRIBUTES")
 public class Attributes implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected int id;
 	protected String name;
 	protected String value;
 	
 	@Id
-	@Column(name="id")
+	@Column(name="ID")
 	@GeneratedValue(strategy = GenerationType.AUTO)	
 	public int getId() {
 		return id;
@@ -29,7 +33,7 @@ public class Attributes implements Serializable {
 	}
 	
 	@Basic
-	@Column(name="name")
+	@Column(name="NAME")
 	public String getName() {
 		return name;
 	}
@@ -38,7 +42,7 @@ public class Attributes implements Serializable {
 	}
 	
 	@Basic
-	@Column(name="value")
+	@Column(name="VALUE")
 	public String getValue() {
 		return value;
 	}

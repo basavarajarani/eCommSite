@@ -18,6 +18,10 @@ import javax.persistence.Table;
 public class Authorities implements Serializable {
 
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected String userName;
 	protected String authority;
 	protected Long hjid;

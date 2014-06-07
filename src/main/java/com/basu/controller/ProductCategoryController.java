@@ -1,9 +1,10 @@
 package com.basu.controller;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -50,11 +51,11 @@ public class ProductCategoryController {
 
 
 	/*	@RequestMapping(value="get_productCategory_list", method = RequestMethod.GET)
-	public @ResponseBody List<String> getProductCategoryList()
+	public @ResponseBody Set<String> getProductCategoryList()
 	{
 		System.out.println("Entering get_productCategory_list");
-		List<ProductCategory> prodCatList =  this.eCommService.getProductCategoryDao().getUniqueProductCategories();
-		List<String> prodCatStringList = new ArrayList<String>();
+		Set<ProductCategory> prodCatList =  this.eCommService.getProductCategoryDao().getUniqueProductCategories();
+		Set<String> prodCatStringList = new HashSet<String>();
 		for (int i =0;i<prodCatList.size();i++)
 		{
 				prodCatStringList.add(prodCatList.get(i).getCategoryName());
@@ -64,16 +65,15 @@ public class ProductCategoryController {
 	}*/
 
 	@RequestMapping(value="get_productCategory_list", method = RequestMethod.GET)
-	public @ResponseBody List<String> getProductCategoryList()
+	public @ResponseBody Set<String> getProductCategoryList()
 	{
-		List<String> productCategoryListToJson = new ArrayList<String>();
+		Set<String> productCategoryListToJson = new HashSet<String>();
 		System.out.println("Entering get_productCategory_list");
-		//		List<ProductCategory> prodCatList =  this.eCommService.getProductCategoryDao().getUniqueProductCategories();
-		List<ProductCategory> productCategoryListFromDb = this.eCommService.getAllTopLevelProductCategories();
+		//		Set<ProductCategory> prodCatList =  this.eCommService.getProductCategoryDao().getUniqueProductCategories();
+		Set<ProductCategory> productCategoryListFromDb = this.eCommService.getAllTopLevelProductCategories();
 
-		for (int i =0;i<productCategoryListFromDb.size();i++)
+		for (ProductCategory productCategory :productCategoryListFromDb)
 		{
-			ProductCategory productCategory = productCategoryListFromDb.get(i);
 			ProductCategoryUtil.allProductCategoryBuildTree(productCategory.getSubCategories(), productCategoryListToJson,productCategory.getCategoryName(),false);
 		}
 		
@@ -88,10 +88,10 @@ public class ProductCategoryController {
 	}
 	
 	@RequestMapping(value="get_productCategory_listmap", method=RequestMethod.GET)
-	public @ResponseBody Map<String, List<String>> get_productCategory_listmap()
+	public @ResponseBody Map<String, Set<String>> get_productCategory_listmap()
 	{
-		List<String> productCategoryListToJson = getProductCategoryList();
-		Map<String, List<String>> productCategoryListMapToJson = new Hashtable<String, List<String>>();
+		Set<String> productCategoryListToJson = getProductCategoryList();
+		Map<String, Set<String>> productCategoryListMapToJson = new Hashtable<String, Set<String>>();
 		productCategoryListMapToJson.put("items", productCategoryListToJson);
 		return productCategoryListMapToJson;
 	}
@@ -150,7 +150,7 @@ public class ProductCategoryController {
 		}
 
 		Page<ProductCategory> productCategories = this.eCommService.getAllProductCategories(pageRequest);;
-		List<ProductCategoryDto> productCategoryDtoList = ProductCategoryMapper.map(productCategories);
+		Set<ProductCategoryDto> productCategoryDtoList = ProductCategoryMapper.map(productCategories);
 		JqgridResponse<ProductCategoryDto> jqGridResponse = new JqgridResponse<ProductCategoryDto>();
 		jqGridResponse.setRows(productCategoryDtoList);
 		jqGridResponse.setRecords(Long.valueOf(productCategories.getTotalElements()).toString());
@@ -179,7 +179,7 @@ public class ProductCategoryController {
 		}
 
 
-		List<ProductCategoryDto> productCategoryDtoList = ProductCategoryMapper.map(productCategories);
+		Set<ProductCategoryDto> productCategoryDtoList = ProductCategoryMapper.map(productCategories);
 		JqgridResponse<ProductCategoryDto> jqGridResponse = new JqgridResponse<ProductCategoryDto>();
 		jqGridResponse.setRows(productCategoryDtoList);
 		jqGridResponse.setRecords(Long.valueOf(productCategories.getTotalElements()).toString());

@@ -24,6 +24,7 @@
 <spring:url value="/static/js/jquery.js" htmlEscape="true"
 	var="jqueryjs" />
 <script src="${jqueryjs}"></script>
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css"/>
 
 <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>

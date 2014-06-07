@@ -10,10 +10,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Entity
-@Table(name="Image")
+@Entity(name="Image")
+@Table(name="IMAGE")
 public class Image implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected long id;
 	protected String imageName;
 	protected String imageThumbnailUrl;
@@ -39,7 +43,7 @@ public class Image implements Serializable {
 	}
 	
 	@Id
-	@Column(name="id")
+	@Column(name="ID")
 	@GeneratedValue(strategy = GenerationType.AUTO)	
 	public long getId() {
 		return id;
@@ -49,7 +53,7 @@ public class Image implements Serializable {
 	}
 	
 	@Basic
-	@Column(name="imagename")
+	@Column(name="IMAGENAME")
 	public String getImageName() {
 		return imageName;
 	}

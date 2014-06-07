@@ -2,8 +2,10 @@
 package com.basu.schemas;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -17,14 +19,8 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
 
 @Entity(name = "ProductCategory")
 @Table(name = "PRODUCTCATEGORY")
@@ -34,8 +30,12 @@ public class ProductCategory
 {
 
 
-    protected String categoryName;
-    protected List<ProductCategory> subCategories;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	protected String categoryName;
+    protected Set<ProductCategory> subCategories;
     protected ProductCategory parentCategory;
     protected Long hjid;
     protected String categoryHierarchy;
@@ -68,16 +68,15 @@ public class ProductCategory
     @OneToMany(targetEntity = ProductCategory.class, cascade = {
         CascadeType.ALL
     }, fetch = FetchType.EAGER)
-    @JoinColumn(name = "SUBCATEGORIES_PRODUCTCATEGOR_0")
-    @OrderColumn(name="PRODUCTCATEGORIES_SUBCATEGORIES")
-    public List<ProductCategory> getSubCategories() {
+    @JoinColumn(name = "SUBCATEGORY_PARENTPRODUCTCATEGORY_ID")
+    public Set<ProductCategory> getSubCategories() {
         if (subCategories == null) {
-            subCategories = new ArrayList<ProductCategory>();
+            subCategories = new HashSet<ProductCategory>();
         }
         return this.subCategories;
     }
 
-    public void setSubCategories(List<ProductCategory> subCategories) {
+    public void setSubCategories(Set<ProductCategory> subCategories) {
         this.subCategories = subCategories;
     }
 
@@ -91,7 +90,7 @@ public class ProductCategory
     }
 
     @ManyToOne(targetEntity = ProductCategory.class)
-    @JoinColumn(name = "ProductCategory_ParentCategory")
+    @JoinColumn(name = "PRODUCTCATEGORY_PARENTCATEGORY_ID")
     public ProductCategory getParentCategory() {
         return parentCategory;
     }

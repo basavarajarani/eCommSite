@@ -14,6 +14,7 @@ import java.math.BigInteger;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,12 +22,11 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import org.jvnet.jaxb2_commons.lang.Equals;
 import org.jvnet.jaxb2_commons.lang.EqualsStrategy;
@@ -38,32 +38,6 @@ import org.jvnet.jaxb2_commons.locator.ObjectLocator;
 import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
 
 
-/**
- * <p>Java class for OrderItem complex type.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * 
- * <pre>
- * &lt;complexType name="OrderItem">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;all>
- *         &lt;element name="Order" type="{xmlapi_1.0}Order"/>
- *         &lt;element name="OrderItemName" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="OrderItemFinalPrice" type="{http://www.w3.org/2001/XMLSchema}decimal"/>
- *         &lt;element name="OrderQuantity" type="{http://www.w3.org/2001/XMLSchema}integer"/>
- *       &lt;/all>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
- * </pre>
- * 
- * 
- */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "OrderItem", propOrder = {
-
-})
 @Entity(name = "OrderItem")
 @Table(name = "ORDERITEM")
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -71,18 +45,29 @@ public class OrderItem
     implements Serializable, Equals, HashCode
 {
 
-    @XmlElement(name = "Order", required = true)
-    protected Order order;
-    @XmlElement(name = "OrderItemName", required = true)
-    protected String orderItemName;
-    @XmlElement(name = "OrderItemFinalPrice", required = true)
-    protected BigDecimal orderItemFinalPrice;
-    @XmlElement(name = "OrderQuantity", required = true)
-    protected BigInteger orderQuantity;
-    @XmlAttribute(name = "Hjid")
-    protected Long hjid;
-
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	protected SalesOrder order;
+    protected String orderItemName;
+    protected double orderItemFinalPrice;
+    protected int orderQuantity;
+    protected long id;
+    protected Product product;
+
+    
+    @OneToOne(targetEntity=Product.class, fetch=FetchType.LAZY)
+    @JoinColumn(name="ORDERITEM_PRODUCT_ID")
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
+	}
+
+	/**
      * Gets the value of the order property.
      * 
      * @return
@@ -90,9 +75,8 @@ public class OrderItem
      *     {@link Order }
      *     
      */
-    @ManyToOne(targetEntity = Order.class)
-    @JoinColumn(name = "OrderItem_Order")
-    public Order getOrder() {
+    @ManyToOne(targetEntity = SalesOrder.class)
+    public SalesOrder getOrder() {
         return order;
     }
 
@@ -104,7 +88,7 @@ public class OrderItem
      *     {@link Order }
      *     
      */
-    public void setOrder(Order value) {
+    public void setOrder(SalesOrder value) {
         this.order = value;
     }
 
@@ -154,7 +138,7 @@ public class OrderItem
      */
     @Basic
     @Column(name = "ORDERITEMFINALPRICE", precision = 20, scale = 10)
-    public BigDecimal getOrderItemFinalPrice() {
+    public double getOrderItemFinalPrice() {
         return orderItemFinalPrice;
     }
 
@@ -166,14 +150,10 @@ public class OrderItem
      *     {@link BigDecimal }
      *     
      */
-    public void setOrderItemFinalPrice(BigDecimal value) {
+    public void setOrderItemFinalPrice(double value) {
         this.orderItemFinalPrice = value;
     }
 
-    @Transient
-    public boolean isSetOrderItemFinalPrice() {
-        return (this.orderItemFinalPrice!= null);
-    }
 
     /**
      * Gets the value of the orderQuantity property.
@@ -185,7 +165,7 @@ public class OrderItem
      */
     @Basic
     @Column(name = "ORDERQUANTITY", precision = 20, scale = 0)
-    public BigInteger getOrderQuantity() {
+    public int getOrderQuantity() {
         return orderQuantity;
     }
 
@@ -197,13 +177,8 @@ public class OrderItem
      *     {@link BigInteger }
      *     
      */
-    public void setOrderQuantity(BigInteger value) {
+    public void setOrderQuantity(int value) {
         this.orderQuantity = value;
-    }
-
-    @Transient
-    public boolean isSetOrderQuantity() {
-        return (this.orderQuantity!= null);
     }
 
     /**
@@ -215,10 +190,10 @@ public class OrderItem
      *     
      */
     @Id
-    @Column(name = "HJID")
+    @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public Long getHjid() {
-        return hjid;
+    public long getId() {
+        return id;
     }
 
     /**
@@ -229,8 +204,8 @@ public class OrderItem
      *     {@link Long }
      *     
      */
-    public void setHjid(Long value) {
-        this.hjid = value;
+    public void setId(long value) {
+        this.id = value;
     }
 
     public boolean equals(ObjectLocator thisLocator, ObjectLocator thatLocator, Object object, EqualsStrategy strategy) {
@@ -242,9 +217,9 @@ public class OrderItem
         }
         final OrderItem that = ((OrderItem) object);
         {
-            Order lhsOrder;
+            SalesOrder lhsOrder;
             lhsOrder = this.getOrder();
-            Order rhsOrder;
+            SalesOrder rhsOrder;
             rhsOrder = that.getOrder();
             if (!strategy.equals(LocatorUtils.property(thisLocator, "order", lhsOrder), LocatorUtils.property(thatLocator, "order", rhsOrder), lhsOrder, rhsOrder)) {
                 return false;
@@ -260,18 +235,18 @@ public class OrderItem
             }
         }
         {
-            BigDecimal lhsOrderItemFinalPrice;
+            double lhsOrderItemFinalPrice;
             lhsOrderItemFinalPrice = this.getOrderItemFinalPrice();
-            BigDecimal rhsOrderItemFinalPrice;
+            double rhsOrderItemFinalPrice;
             rhsOrderItemFinalPrice = that.getOrderItemFinalPrice();
             if (!strategy.equals(LocatorUtils.property(thisLocator, "orderItemFinalPrice", lhsOrderItemFinalPrice), LocatorUtils.property(thatLocator, "orderItemFinalPrice", rhsOrderItemFinalPrice), lhsOrderItemFinalPrice, rhsOrderItemFinalPrice)) {
                 return false;
             }
         }
         {
-            BigInteger lhsOrderQuantity;
+            int lhsOrderQuantity;
             lhsOrderQuantity = this.getOrderQuantity();
-            BigInteger rhsOrderQuantity;
+            int rhsOrderQuantity;
             rhsOrderQuantity = that.getOrderQuantity();
             if (!strategy.equals(LocatorUtils.property(thisLocator, "orderQuantity", lhsOrderQuantity), LocatorUtils.property(thatLocator, "orderQuantity", rhsOrderQuantity), lhsOrderQuantity, rhsOrderQuantity)) {
                 return false;
@@ -288,7 +263,7 @@ public class OrderItem
     public int hashCode(ObjectLocator locator, HashCodeStrategy strategy) {
         int currentHashCode = 1;
         {
-            Order theOrder;
+            SalesOrder theOrder;
             theOrder = this.getOrder();
             currentHashCode = strategy.hashCode(LocatorUtils.property(locator, "order", theOrder), currentHashCode, theOrder);
         }
@@ -298,12 +273,12 @@ public class OrderItem
             currentHashCode = strategy.hashCode(LocatorUtils.property(locator, "orderItemName", theOrderItemName), currentHashCode, theOrderItemName);
         }
         {
-            BigDecimal theOrderItemFinalPrice;
+            double theOrderItemFinalPrice;
             theOrderItemFinalPrice = this.getOrderItemFinalPrice();
             currentHashCode = strategy.hashCode(LocatorUtils.property(locator, "orderItemFinalPrice", theOrderItemFinalPrice), currentHashCode, theOrderItemFinalPrice);
         }
         {
-            BigInteger theOrderQuantity;
+            int theOrderQuantity;
             theOrderQuantity = this.getOrderQuantity();
             currentHashCode = strategy.hashCode(LocatorUtils.property(locator, "orderQuantity", theOrderQuantity), currentHashCode, theOrderQuantity);
         }

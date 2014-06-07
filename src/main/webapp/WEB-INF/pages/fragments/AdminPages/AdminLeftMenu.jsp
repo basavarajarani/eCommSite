@@ -1,4 +1,4 @@
-
+<%-- 
 <!-- left menu starts -->
 <div class="span2 main-menu-span">
 	<div class="well nav-collapse sidebar-nav">
@@ -31,3 +31,4 @@
 </div>
 <!--/span-->
 <!-- left menu ends -->
+ --%>

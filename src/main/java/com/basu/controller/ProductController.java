@@ -2,8 +2,10 @@ package com.basu.controller;
 
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.WordUtils;
@@ -74,7 +76,7 @@ public class ProductController {
 		}
 
 		Page<Product> products = this.eCommService.getAllProducts(pageRequest,sidx,sord);
-		List<ProductDto> productDtoList = ProductMapper.map(products);
+		Set<ProductDto> productDtoList = ProductMapper.map(products);
 		JqgridResponse<ProductDto> jqGridResponse = new JqgridResponse<ProductDto>();
 		jqGridResponse.setRows(productDtoList);
 		jqGridResponse.setRecords(Long.valueOf(products.getTotalElements()).toString());
@@ -99,7 +101,7 @@ public class ProductController {
 		}
 		
 		Page<Product> products = this.eCommService.getAllProducts(pageRequest,sidx,sord,functionName,parameterValue);
-		List<ProductDto> productDtoList = ProductMapper.map(products);
+		Set<ProductDto> productDtoList = ProductMapper.map(products);
 		JqgridResponse<ProductDto> jqGridResponse = new JqgridResponse<ProductDto>();
 		jqGridResponse.setRows(productDtoList);
 		jqGridResponse.setRecords(Long.valueOf(products.getTotalElements()).toString());
@@ -134,7 +136,7 @@ public class ProductController {
 		Page<Product> products = this.eCommService.getAllProductsForACategory(categoryId,pageRequest);
 		//Page<Product> products = this.eCommService.getAllProducts(pageRequest);
 
-		List<ProductDto> productDtoList = ProductMapper.map(products);
+		Set<ProductDto> productDtoList = ProductMapper.map(products);
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("MainView");
@@ -149,7 +151,7 @@ public class ProductController {
 	
 	@Transactional
 	@RequestMapping(value="/products/category={categoryId}/page={pageId}", method=RequestMethod.GET)
-	public @ResponseBody List<ProductDto> getProductsFromCategoryId(@PathVariable String categoryId, @PathVariable String pageId) {
+	public @ResponseBody Set<ProductDto> getProductsFromCategoryId(@PathVariable String categoryId, @PathVariable String pageId) {
 
 		System.out.println("Request for products from categoryid:"+categoryId);
 		int intPageId = Integer.valueOf(pageId).intValue();
@@ -159,7 +161,7 @@ public class ProductController {
 		Page<Product> products = this.eCommService.getAllProductsForACategory(categoryId,pageRequest);
 		//Page<Product> products = this.eCommService.getAllProducts(pageRequest);
 
-		List<ProductDto> productDtoList = ProductMapper.map(products);
+		Set<ProductDto> productDtoList = ProductMapper.map(products);
 
 
 		return productDtoList;
@@ -167,10 +169,10 @@ public class ProductController {
 	
 	@Transactional
 	@RequestMapping(value="getFeaturedProducts", method=RequestMethod.GET)
-	public @ResponseBody List<ProductDto> getFeaturedProducts(){
+	public @ResponseBody Set<ProductDto> getFeaturedProducts(){
 		Pageable pageRequest = new PageRequest(0, 9);
 		Page<Product> products = this.eCommService.getAllFeaturedProducts(pageRequest);
-		List<ProductDto> productDtoList = ProductMapper.map(products);
+		Set<ProductDto> productDtoList = ProductMapper.map(products);
 		return productDtoList;
 	}
 
@@ -199,7 +201,7 @@ public class ProductController {
 	@Transactional
 	@Secured({"ROLE_ADMIN"})
 	@RequestMapping(value="addProductNewAPI",method=RequestMethod.POST, produces="application/json")
-	public @ResponseBody List<String> addProductNewAPI(
+	public @ResponseBody Set<String> addProductNewAPI(
 			HttpServletRequest request,
 			@RequestParam(value="cmd") String cmd,
 			@RequestParam(value="name") String name,
@@ -266,7 +268,7 @@ public class ProductController {
 			
 			if (additionalImagesTextItems.length > 0) 
 			{		
-				List<Image> additionalImages = new ArrayList<Image>();
+				Set<Image> additionalImages = new HashSet<Image>();
 
 				for (int i = 0;i<additionalImagesTextItems.length;i++) {
 					if (!additionalImagesTextItems[i].trim().isEmpty()) {
@@ -288,7 +290,7 @@ public class ProductController {
 			
 			/* Handle the attributes */
 			if (!attributes.isEmpty()){
-				List<Attributes> productAttributes = new ArrayList<Attributes>();
+				Set<Attributes> productAttributes = new HashSet<Attributes>();
 				String[]attributeList = attributes.split("::");
 				for (int i =0;i<attributeList.length;i++){
 					String []attributeValue = attributeList[i].split("-->");
@@ -308,7 +310,7 @@ public class ProductController {
 			
 
 			String result = this.eCommService.addProductRecord(product);
-			List<String> returnString = new ArrayList<String>();
+			Set<String> returnString = new HashSet<String>();
 			returnString.add(result);
 			return returnString;
 		} 
@@ -354,7 +356,7 @@ public class ProductController {
 
 		if (additionalImagesTextItems.length > 0) 
 		{		
-			List<Image> additionalImages = new ArrayList<Image>();
+			Set<Image> additionalImages = new HashSet<Image>();
 
 			for (int i = 0;i<additionalImagesTextItems.length;i++) {
 				if (!additionalImagesTextItems[i].trim().isEmpty()) {
@@ -368,7 +370,7 @@ public class ProductController {
 		
 		/* Handle the attributes */
 		if (!attributes.isEmpty()){
-			List<Attributes> productAttributes = new ArrayList<Attributes>();
+			Set<Attributes> productAttributes = new HashSet<Attributes>();
 			String[]attributeList = attributes.split("::");
 			for (int i =0;i<attributeList.length;i++){
 				String []attributeValue = attributeList[i].split("-->");
@@ -383,7 +385,7 @@ public class ProductController {
 		product.setFeaturedProduct(featuredProduct);
 
 		String result = this.eCommService.addProductRecord(product);
-		List<String> returnString = new ArrayList<String>();
+		Set<String> returnString = new HashSet<String>();
 		returnString.add(result);
 		return returnString;
 	}

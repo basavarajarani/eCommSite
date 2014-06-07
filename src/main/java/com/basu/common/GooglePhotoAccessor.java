@@ -2,10 +2,11 @@ package com.basu.common;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.google.gdata.client.photos.PicasawebService;
 import com.google.gdata.data.photos.AlbumEntry;
@@ -32,7 +33,7 @@ public class GooglePhotoAccessor {
 		}
 		return albumNames;
 	}
-	public static List<String> retreiveGooglePics(String albumIdEntry) throws IOException, ServiceException {
+	public static Set<String> retreiveGooglePics(String albumIdEntry) throws IOException, ServiceException {
 		PicasawebService myService = new PicasawebService("Download Album Links");
 		myService.setUserCredentials("basavaraj.arani@gmail.com", "maisuramallige#4");
 		String []albumIdSplit = albumIdEntry.split("/");
@@ -58,7 +59,7 @@ public class GooglePhotoAccessor {
 
 		AlbumFeed feed = myService.getFeed(feedUrl, AlbumFeed.class);
 
-		List<String> googlePhotoList = new ArrayList<String>();
+		Set<String> googlePhotoList = new HashSet<String>();
 		//Map <String, String> googlePhotoMap = new Hashtable<String, String>();
 		for(PhotoEntry photo : feed.getPhotoEntries()) {
 		   // System.out.println(photo.getTitle().getPlainText()+":"+photo.getLink(null, null));

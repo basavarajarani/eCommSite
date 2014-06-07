@@ -24,7 +24,7 @@
 <link rel="stylesheet" type="text/css" media="screen"
 	href="http://www.trirand.com/blog/jqgrid/themes/ui.multiselect.css" />
 
-<div class="row-fluid">
+<div class="row">
 	<div id='jqgrid' class="span12">
 		<table id='grid'></table>
 		<div id='pager'></div>

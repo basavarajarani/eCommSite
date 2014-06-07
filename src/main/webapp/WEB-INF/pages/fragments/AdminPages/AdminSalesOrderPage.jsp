@@ -7,13 +7,6 @@
 <html lang="en">
 <head>
 <jsp:include page="AdminHeadTag.jsp" />
-<spring:url value="/static/css/w2ui-1.3.2.min.css" var="w2uicss"/>
-<link rel="stylesheet" type="text/css"
-	href="${w2uicss }" />
-
-<spring:url value="/static/js/w2ui-1.3.2.min.js" var="w2uijs"/>
-<script type="text/javascript" src="${w2uijs}"></script>
-
 </head>
 
 <body>
@@ -42,12 +35,22 @@
 				<div>
 					<ul class="breadcrumb">
 						<li><a href="#">Home</a> <span class="divider">/</span></li>
-						<li><a href="#">Products</a><span class="divider">/</span></li>
-						<li><a href="#">Create Product</a></li>
+						<li><a href="#">Orders</a></li>
 					</ul>
 				</div>
 
-				<jsp:include page="AdminProductCreateForm.jsp" />
+				<div class="row">
+					<div class="span12">
+						<div class="btn-group pull-right">
+							<button id="AddNewProduct" class="btn">Add Order</button>
+							<button id="EditCurrentProduct" class="btn">Edit Order</button>
+							<button id="DeleteCurrentProduct" class="btn">Delete
+								Order</button>
+						</div>
+					</div>
+				</div>
+
+				<jsp:include page="AdminOrderGrid.jsp" />
 
 				<jsp:include page="AdminFooter.jsp" />
 			</div>
@@ -55,5 +58,8 @@
 	</div>
 	<!--/.fluid-container-->
 	<jsp:include page="AdminJSInclusions.jsp" />
+	<spring:url value="/static/js/productOperations.js"
+		var="productoperationsjs" />
+	<script src="${productoperationsjs}"></script>
 </body>
 </html>

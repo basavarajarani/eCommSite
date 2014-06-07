@@ -20,7 +20,7 @@
 <!-- Styles -->
 <!-- Bootstrap CSS -->
 <link
-	href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"
+	href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"
 	rel="stylesheet">
 <!-- SLIDER REVOLUTION 4.x CSS SETTINGS -->
 <spring:url value="/static/css/settings.css" var="settingscss" />
@@ -28,14 +28,7 @@
 <!-- Animate css -->
 <spring:url value="/static/css/animate.min.css" var="animatecss" />
 <link href="${animatecss}" rel="stylesheet">
-<!-- Dropdown menu -->
-<spring:url value="/static/css/ddlevelsmenu-base.css"
-	var="ddlevelsmenucss" />
-<link href="${ddlevelsmenucss}" rel="stylesheet">
 
-<spring:url value="/static/css/ddlevelsmenu-topbar.css"
-	var="ddlevelsmenutopbarcss" />
-<link href="${ddlevelsmenutopbarcss}" rel="stylesheet">
 <!-- Countdown -->
 <spring:url value="/static/css/jquery.countdown.css"
 	var="jquerycountdowncss" />
@@ -47,6 +40,9 @@
 <!-- Custom CSS -->
 <spring:url value="/static/css/style.css" var="stylecss" />
 <link href="${stylecss}" rel="stylesheet">
+
+<link rel="stylesheet"
+	href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
 
 <!-- Favicon -->
 <link rel="shortcut icon" href="#">
@@ -81,7 +77,8 @@
 
 	<!-- Shopping cart Modal -->
 	<div class="modal fade" id="shoppingcart" tabindex="-1" role="dialog"
-		aria-hidden="true">
+		aria-hidden="true" ng-controller="ShoppingCartController"
+		style="position: absolute; overflow-y: auto;">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -95,33 +92,40 @@
 					<table class="table table-striped">
 						<thead>
 							<tr>
-								<th>Name</th>
-								<th>Quantity</th>
-								<th>Price</th>
+								<th>Cart Items</th>
+								<th>Qty</th>
+								<th>Item Price</th>
+								<th>Item Total</th>
+								<th></th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td><a href="single-item.html">HTC One</a></td>
-								<td>2</td>
-								<td>$250</td>
-							</tr>
-							<tr>
-								<td><a href="single-item.html">Apple iPhone</a></td>
-								<td>1</td>
-								<td>$502</td>
-							</tr>
-							<tr>
-								<td><a href="single-item.html">Galaxy Note</a></td>
-								<td>4</td>
-								<td>$1303</td>
-							</tr>
-							<tr>
-								<th></th>
-								<th>Total</th>
-								<th>$2405</th>
+							<tr ng-repeat="item in shoppingcartlist()">
+								<td><a href="single-item.html">{{item.name}}</a></td>
+								<td><input my-directive class="spinner" type="text"
+									name="{{item.id}}" ng-model="item.quantity"
+									ng-change="update()" style="width: 20px;"></td>
+								<td>&#36;{{item.price}}</td>
+								<td>&#36;{{item.total}}</td>
+								<td>
+									<div>
+										<a data-productid="{{item.id}}" class="removeitem"
+											target="_blank" ng-click="removeItem($event)"><span
+											data-productid="{{item.id}}"
+											class="glyphicon glyphicon-trash"></span></a>
+									</div>
+								</td>
 							</tr>
 						</tbody>
+						<tfoot>
+							<tr>
+								<td></td>
+								<td></td>
+								<td>Subtotal:</td>
+								<td id="cartsubtotal">&#36;{{shoppingCartTotal()}}</td>
+								<td></td>
+							</tr>
+						</tfoot>
 					</table>
 
 				</div>
@@ -152,10 +156,13 @@
 				</div>
 				<div class="col-md-5 col-sm-4"></div>
 				<div class="col-md-4 col-sm-4">
-					<div class="kart-links">
-						<a href="#login">Login</a> <a href="register.html">Signup</a> <a
-							data-toggle="modal" href="#shoppingcart"><i
-							class="fa fa-shopping-cart"></i> 3 Items - $300</a>
+					<div class="kart-links" ng-controller="ViewCartController">
+						<a href="#loginregister"><span
+							class="glyphicon glyphicon-user"></span> MyAccount</a><a
+							id="viewcartcount" data-toggle="modal"
+							data-target="#shoppingcart" ng-click="updateViewCart()"> <span
+							id="viewcartcountspan" class="glyphicon glyphicon-shopping-cart">0
+								Items - $0</span></a>
 					</div>
 				</div>
 			</div>
@@ -169,10 +176,24 @@
 		<div id="menubarcontainer" style="background: #0FA6BC;">
 			<div id="menubar">
 				<ul id="main-menu" class="sm sm-blue">
-					<li id="HomeMenu"><a href="#index.html">Home</a></li>
-					<li id="ProductsSubMenu"><a href="#">Products</a>
+					<li id="HomeMenu"><a href="#index.html"><span
+							class="glyphicon glyphicon-home"> </span> Home</a></li>
+					<li id="ProductsSubMenu"><a href="#"><span
+							class="glyphicon glyphicon-tags"></span> Products</a>
 						<ul id="prodsubmenu"></ul></li>
-					<li><a href="#">Service</a></li>
+					<li><a href="#"><span class="glyphicon glyphicon-wrench"></span>
+							Service</a></li>
+					<li><a href="#"><span
+							class="glyphicon glyphicon-info-sign"></span> About Us</a></li>
+					<li class="pull-right">
+						<form class="form-inline" role="search" style="padding:5px;">
+							<div class="form-group">
+								<label class="sr-only" for="searchtext">Search</label> 
+								<input type="text" id="searchtext" placeholder="Search">
+							</div>
+							<button type="submit" class="btn btn-default btn-xs"><span class=" glyphicon glyphicon-search"></span></button>
+						</form>
+					</li>
 
 				</ul>
 			</div>
@@ -273,10 +294,10 @@
 	<!-- Javascript files -->
 	<!-- jQuery -->
 	<script
-		src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+		src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
 	<!-- Bootstrap JS -->
 	<script
-		src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+		src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 	<!-- SLIDER REVOLUTION 4.x SCRIPTS  -->
 	<spring:url value="/static/js/jquery.themepunch.plugins.min.js"
 		var="jquerythemepunchjs" />
@@ -284,9 +305,6 @@
 	<spring:url value="/static/js/jquery.themepunch.revolution.min.js"
 		var="jquerythemepunchrevolutionjs" />
 	<script src="${jquerythemepunchrevolutionjs}"></script>
-	<!-- Dropdown menu -->
-	<spring:url value="/static/js/ddlevelsmenu.js" var="ddlevelsmenujs" />
-	<script src="${ddlevelsmenujs}"></script>
 	<!-- Countdown -->
 	<spring:url value="/static/js/jquery.countdown.min.js"
 		var="jquerycountdownjs" />
@@ -313,6 +331,14 @@
 		src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular-route.js"></script>
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular-sanitize.js"></script>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+
+	<spring:url value="/static/js/bootstrap.touchspin.js" var="touchspinjs" />
+	<script type="text/javascript" src="${touchspinjs }"></script>
+
+	<spring:url value="/static/js/StoreCart.js" var="storecartjs" />
+	<script type="text/javascript" src="${storecartjs }"></script>
 	<spring:url value="/static/js/phcmvw.js" var="phcmvwjs" />
 	<script src="${phcmvwjs}"></script>
 
@@ -321,14 +347,7 @@
 	<!-- SmartMenus jQuery plugin -->
 	<script type="text/javascript" src="${jQuerySmartMenuJs}"></script>
 
-	<spring:url value="/static/js/jquery.elevateZoom-3.0.8.min.js"
-		var="elevatezoomjs" />
-	<script type="text/javascript" src="${elevatezoomjs }"></script>
-	<script type="text/javascript">
-		$(function() {
-			$("#zoom_01").elevateZoom();
-		});
-	</script>
+
 
 </body>
 </html>

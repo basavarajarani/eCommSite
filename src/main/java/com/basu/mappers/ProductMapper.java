@@ -1,8 +1,9 @@
 package com.basu.mappers;
 
 import java.math.RoundingMode;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.domain.Page;
 
@@ -15,10 +16,10 @@ import com.basu.schemas.ProductDimensions;
 
 public class ProductMapper {
 
-	public static List<ProductDto> map(Page<Product> products) {
+	public static Set<ProductDto> map(Page<Product> products) {
 		// TODO Auto-generated method stub
 
-		List<ProductDto> productDtoList = new ArrayList<ProductDto>();
+		Set<ProductDto> productDtoList = new HashSet<ProductDto>();
 
 		for (Product product: products) {
 			ProductDto productDto = map(product);
@@ -55,7 +56,7 @@ public class ProductMapper {
 		}
 		String additionalImagesText = "";
 		if (product.getAdditionalImages()!=null && product.getAdditionalImages().size()>0) {
-			List<Image> additionalImages = product.getAdditionalImages();
+			Set<Image> additionalImages = product.getAdditionalImages();
 			for (Image image : additionalImages){
 				additionalImagesText += image.getImageFullSizeUrl()+"::";
 			}
@@ -65,7 +66,9 @@ public class ProductMapper {
 
 		String attributesList = "";
 		if (product.getAttributes()!=null && product.getAttributes().size()>0){
-			List<Attributes> productAttributes = product.getAttributes();
+
+			Set<Attributes> productAttributes = product.getAttributes();
+			
 			for (Attributes attribute: productAttributes){
 				attributesList += attribute.getName()+"-->"+attribute.getValue()+"::";
 			}
@@ -100,16 +103,17 @@ public class ProductMapper {
 		if (product.getAdditionalImages()!=null && product.getAdditionalImages().size()>0)
 		{
 			String additionalImages ="";
-			for (int i =0;i<product.getAdditionalImages().size();i++)
-				additionalImages+=product.getAdditionalImages().get(i).getImageFullSizeUrl()+"::";
+			for (Image image:product.getAdditionalImages()){
+				additionalImages+=image.getImageFullSizeUrl()+"::";
+			}
 			additionalImages = additionalImages.substring(0, additionalImages.lastIndexOf("::")-1);
 			productDto.setAdditionalimages(additionalImages);
 		}
 		if (product.getAttributes()!=null && product.getAttributes().size()>0)
 		{
 			String attributes = "";
-			for (int i =0;i<product.getAttributes().size();i++){
-				attributes+=product.getAttributes().get(i).getName()+"-->"+product.getAttributes().get(i).getValue()+"::";
+			for (Attributes attribute:product.getAttributes()){
+				attributes+=attribute.getName()+"-->"+attribute.getValue()+"::";
 			}
 			attributes = attributes.substring(0,attributes.lastIndexOf("::"));
 			productDto.setAttributes(attributes);

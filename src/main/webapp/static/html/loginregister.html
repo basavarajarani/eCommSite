@@ -1,0 +1,65 @@
+<div class="row">
+
+	<hr />
+	<div class="row">
+		<h2>
+			<strong>Account Login</strong>
+		</h2>
+	</div>
+	<hr />
+
+	<div class="row">
+
+		<div class="col-md-5 pull-left well">
+			<h2><strong>New Customers</strong></h2>
+			<p>By creating an account with our store, you will be able to
+				move through the checkout process faster, store multiple shipping
+				addresses, view and track your orders in your account and more.</p>
+			<br>
+			<button type="button" class="btn btn-primary btn-sm pull-right">
+				<span class="glyphicon glyphicon-star"></span> Create an Account
+			</button>
+		</div>
+		<div class="col-md-5 pull-right well">
+			<h2><strong>Registered Customers</strong></h2>
+			<p>If you have an account with us, please log in.</p>
+			<br />
+			<form role="form" name='f' action="j_spring_security_check"
+				method='POST'>
+				<div class="form-group">
+					<label for="username">User Name</label> <input type="text"
+						class="form-control" id="username" name='j_username'
+						placeholder="username" />
+				</div>
+				<div class="form-group">
+					<label for="password">Password</label> <input type="password"
+						class="form-control" name='j_password' id="password"
+						placeholder="password" />
+				</div>
+				<button type="submit" class="btn btn-primary btn-sm pull-right"><span class="glyphicon glyphicon-log-in"></span> Login</button>
+
+			</form>
+		</div>
+	</div>
+	<!-- 		Please enter your username and password. Password is case sensitive.
+
+
+		<form name='f' action="j_spring_security_check" method='POST'
+			style="padding: 20px; border: 1px solid black;">
+
+			<table>
+				<tr>
+					<td>User:</td>
+					<td><input type='text' name='j_username' value=''></td>
+				</tr>
+				<tr>
+					<td>Password:</td>
+					<td><input type='password' name='j_password' /></td>
+				</tr>
+				<tr>
+					<td><input name="submit" type="submit" value="submit" /></td>
+					<td><input name="reset" type="reset" /></td>
+				</tr>
+			</table>
+		</form> -->
+</div>

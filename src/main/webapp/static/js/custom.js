@@ -5,10 +5,6 @@ $('.carousel').carousel({
    pause: "hover"
 });
 
-/* Navigation Menu */
-
-ddlevelsmenu.setup("ddtopmenubar", "topbar");
-
 /* Dropdown Select */
 
 /* Navigation (Select box) */
@@ -117,6 +113,7 @@ $(function() {
 					            parent = $(parent.children("ul"));
 					        }
 					        $(parent).append("<li id='PC_"+pcid+"'><a href='#/products/category="+pcid+"'>"+pcname+"</a></li>");
+					        parent = $(parent).find("#PC_"+pcid);
 					        
 					    });
 

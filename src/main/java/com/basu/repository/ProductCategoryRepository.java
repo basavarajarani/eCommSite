@@ -1,7 +1,7 @@
 package com.basu.repository;
 
 
-import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,11 +25,11 @@ public interface ProductCategoryRepository extends
 	public ProductCategory find(@Param ("categoryName") String categoryName);
 
 	@Query ("select p from ProductCategory p where p.parentCategory = null")
-	public List<ProductCategory> findAllTopLevelProductCategories();
+	public Set<ProductCategory> findAllTopLevelProductCategories();
 	
 	@Query ("select p from ProductCategory p where p.categoryName LIKE %:categoryName%")
 	Page<ProductCategory> findAllByCategoryNameContainingLike(@Param("categoryName") String categoryName, Pageable pageable);
 	
 	@Query ("select p from ProductCategory p where p.categoryHierarchy LIKE :categoryHierarchy%")
-	public List<ProductCategory> findAllByCategoryHierarchyLike(@Param("categoryHierarchy") String categoryHierarchy);
+	public Set<ProductCategory> findAllByCategoryHierarchyLike(@Param("categoryHierarchy") String categoryHierarchy);
 }

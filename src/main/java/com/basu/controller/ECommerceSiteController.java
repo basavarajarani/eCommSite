@@ -119,21 +119,20 @@ public class ECommerceSiteController {
 
 	@Secured ("ROLE_ADMIN")
 	@RequestMapping(value="getAlbumImages", method=RequestMethod.GET)
-	public @ResponseBody List<String> getProductImages(@RequestParam(value="albumId")String albumId) throws IOException, ServiceException {
+	public @ResponseBody Set<String> getProductImages(@RequestParam(value="albumId")String albumId) throws IOException, ServiceException {
 
 		System.out.println("Retreiving google photos");
-		List<String> googlePhotoList = GooglePhotoAccessor.retreiveGooglePics(albumId);
+		Set<String> googlePhotoList = GooglePhotoAccessor.retreiveGooglePics(albumId);
 		System.out.println("PhotoList:"+googlePhotoList);
 		return googlePhotoList;
 	}
 
 	@RequestMapping(value="generateSideMenu", method=RequestMethod.GET)
-	public @ResponseBody List<SideTreeNode> generateSideMenu() {
+	public @ResponseBody Set<SideTreeNode> generateSideMenu() {
 
-		List<ProductCategory> productCategoryListFromDb = eCommService.getAllTopLevelProductCategories();
-		List<SideTreeNode> sideTreeNodeList = new ArrayList<SideTreeNode>();
-		for (int i=0;i<productCategoryListFromDb.size();i++){
-			ProductCategory pc = productCategoryListFromDb.get(i);
+		Set<ProductCategory> productCategoryListFromDb = eCommService.getAllTopLevelProductCategories();
+		Set<SideTreeNode> sideTreeNodeList = new HashSet<SideTreeNode>();
+		for (ProductCategory pc:productCategoryListFromDb){
 			SideTreeNode sideTreeNode = new SideTreeNode();
 			sideTreeNode.setId(pc.getHjid().intValue());
 			sideTreeNode.setName(pc.getCategoryName());
@@ -147,18 +146,17 @@ public class ECommerceSiteController {
 	}
 
 	@RequestMapping(value="generateMenu", method=RequestMethod.GET)
-	public @ResponseBody List<String> generateMenu() {
+	public @ResponseBody Set<String> generateMenu() {
 		// TODO Auto-generated method stub
-		List<String> productCategoryListToJson = new ArrayList<String>();
+		Set<String> productCategoryListToJson = new HashSet<String>();
 		System.out.println("Entering generateMenu");
-		//		List<ProductCategory> prodCatList =  this.eCommService.getProductCategoryDao().getUniqueProductCategories();
+		//		Set<ProductCategory> prodCatList =  this.eCommService.getProductCategoryDao().getUniqueProductCategories();
 		if (eCommService==null)
 			System.out.println("eCommService is null");
-		List<ProductCategory> productCategoryListFromDb = eCommService.getAllTopLevelProductCategories();
+		Set<ProductCategory> productCategoryListFromDb = eCommService.getAllTopLevelProductCategories();
 
-		for (int i =0;i<productCategoryListFromDb.size();i++)
+		for (ProductCategory productCategory:productCategoryListFromDb)
 		{
-			ProductCategory productCategory = productCategoryListFromDb.get(i);
 			ProductCategoryUtil.allProductCategoryBuildTree(productCategory.getSubCategories(), 
 
 					productCategoryListToJson,productCategory.getCategoryName()+"::"+productCategory.getHjid(),true);

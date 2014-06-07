@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -33,23 +34,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlSchemaType;
-import javax.xml.bind.annotation.XmlType;
 import javax.xml.datatype.XMLGregorianCalendar;
 import org.jvnet.hyperjaxb3.xml.bind.annotation.adapters.XMLGregorianCalendarAsDate;
 import org.jvnet.hyperjaxb3.xml.bind.annotation.adapters.XmlAdapterUtils;
-import org.jvnet.jaxb2_commons.lang.Equals;
-import org.jvnet.jaxb2_commons.lang.EqualsStrategy;
-import org.jvnet.jaxb2_commons.lang.HashCode;
-import org.jvnet.jaxb2_commons.lang.HashCodeStrategy;
-import org.jvnet.jaxb2_commons.lang.JAXBEqualsStrategy;
-import org.jvnet.jaxb2_commons.lang.JAXBHashCodeStrategy;
-import org.jvnet.jaxb2_commons.locator.ObjectLocator;
-import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
 
 @Entity(name = "Product")
 @Table(name = "PRODUCT")
@@ -57,7 +44,12 @@ import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
 public class Product
     implements Serializable
 {
-    protected String productSKU;
+	
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	protected String productSKU;
     protected String productName;
     protected BigDecimal productPrice;
     protected BigDecimal productWeight;
@@ -68,15 +60,31 @@ public class Product
     protected ProductCategory productCategory;
     protected Long hjid;
     protected Image mainImage;
-    protected List<Image> additionalImages;
+    protected Set<Image> additionalImages;
     protected ProductDimensions productDimensions;
-    protected List<Attributes> attributes;
+    protected Set<Attributes> attributes;
     protected boolean featuredProduct=false;
+    protected Set<OrderItem> orderItems;
     
     
     
     
-    @Basic
+    
+    @OneToOne(targetEntity=OrderItem.class, fetch=FetchType.LAZY)
+    @JoinColumn(name="ORDERITEM_PRODUCT_ID")
+    public Set<OrderItem> getOrderItems() {
+		return orderItems;
+	}
+
+	public void setOrderItems(Set<OrderItem> orderItems) {
+		this.orderItems = orderItems;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	@Basic
     @Column(name="FEATUREDPRODUCT" )
     public boolean isFeaturedProduct() {
 		return featuredProduct;
@@ -89,18 +97,18 @@ public class Product
 	@OneToMany(orphanRemoval = true, fetch=FetchType.EAGER, targetEntity = Attributes.class, cascade = {
         CascadeType.ALL
     })
-    @JoinColumn(name="ATTRIBUTELIST_PRODUCT_ID")
-    @OrderColumn(name="ATTRIBUTELIST_PRODUCT")
-    public List<Attributes> getAttributes() {
+    @JoinColumn(name="ATTRIBUTE_PRODUCT_ID")
+	@OrderColumn
+    public Set<Attributes> getAttributes() {
 		return attributes;
 	}
 
-	public void setAttributes(List<Attributes> attributes) {
+	public void setAttributes(Set<Attributes> attributes) {
 		this.attributes = attributes;
 	}
 
 	@OneToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
-    @JoinColumn(name="product_dimension_id")
+    @JoinColumn(name="PRODUCT_DIMENSION_ID")
     public ProductDimensions getProductDimensions() {
 		return productDimensions;
 	}
@@ -110,7 +118,7 @@ public class Product
 	}
 
 	@OneToOne(fetch=FetchType.EAGER, cascade= CascadeType.ALL)
-    @JoinColumn(name="image_id")
+    @JoinColumn(name="PRODUCT_MAINIMAGE_ID")
     public Image getMainImage() {
 		return mainImage;
 	}
@@ -122,13 +130,13 @@ public class Product
     @OneToMany(orphanRemoval = true, fetch=FetchType.EAGER, targetEntity = Image.class, cascade = {
         CascadeType.ALL
     })
-    @JoinColumn(name = "IMAGELIST_PRODUCT__HJID")
-    @OrderColumn(name="IMAGELIST_PRODUCT")
-	public List<Image> getAdditionalImages() {
+    @JoinColumn(name = "ADDITIONALIMAGE_PRODUCT_ID")
+    @OrderColumn
+	public Set<Image> getAdditionalImages() {
 		return additionalImages;
 	}
 
-	public void setAdditionalImages(List<Image> additionalImages) {
+	public void setAdditionalImages(Set<Image> additionalImages) {
 		this.additionalImages = additionalImages;
 	}
 
@@ -391,7 +399,7 @@ public class Product
     @ManyToOne(targetEntity = ProductCategory.class, cascade = {
         CascadeType.ALL
     })
-    @JoinColumn(name = "PRODUCTCATEGORY_PRODUCT_HJID")
+    @JoinColumn(name = "PRODUCT_PRODUCTCATEGORY_ID")
     public ProductCategory getProductCategory() {
         return productCategory;
     }

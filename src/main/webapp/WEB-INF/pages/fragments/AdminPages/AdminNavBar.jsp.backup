@@ -28,48 +28,36 @@
 						href="<%=request.getContextPath()%>/<c:url value="j_spring_security_logout" />">Logout</a></li>
 				</ul>
 			</div>
-			<div class="nav-collapse">
-				<ul class="nav	">
-					<li><a class="ajax-link" href="<%=request.getContextPath()%>"><i
-							class="fa fa-dashboard"></i><span class="hidden-tablet">
-								Dashboard</span></a></li>
-					<li class="dropdown"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown"><i class="fa fa-tags"></i>Catalog <b class="caret"></b></a>
-						<ul class="dropdown-menu">
-							<li><a class="ajax-link"
-								href="<%=request.getContextPath()%>/createProductCategory"><i
-									class="fa fa-tags"></i><span class="hidden-tablet">
-										Product Categories</span></a></li>
-							<li><a class="ajax-link"
-								href="<%=request.getContextPath()%>/productoperations"><i
-									class="fa fa-tags"></i><span class="hidden-tablet">
-										Products</span></a></li>
-						</ul></li>
+			<!-- user dropdown ends -->
 
-					<li class="dropdown"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown"> <i class="fa fa-shopping-cart"></i> Sales <b class="caret"></b></a>
-						<ul class="dropdown-menu">
-							<li><a class="ajax-link" href="#"><i
-									class="fa fa-shopping-cart"></i><span class="hidden-tablet"> Orders</span></a></li>
-							<li><a class="ajax-link" href="#"><i class="fa fa-file-text-o"></i> Invoices</a></li>
-							<li><a class="ajax-link" href="#"><i class="fa fa-truck"></i> Returns</a></li>
-							<li><a class="ajax-link" href="#"><i class="fa fa-gift"></i> Coupons</a></li>
-						</ul></li>
-					<li class="dropdown"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown"><i class="fa fa-gears"></i> System <b class="caret"></b></a>
-						<ul class="dropdown-menu">
-							<li><a class="ajax-link"
-								href="<%=request.getContextPath()%>/useroperations"><i
-									class="fa fa-users"></i><span class="hidden-tablet"> Users</span></a></li>
-							<li><a class="ajax-link" href="#"><i class="fa fa-google"></i> Google Settings</a></li>
-							<li><a
-								href="<%=request.getContextPath()%>/SliderDesignerPage"><i class="fa fa-code"></i> Slider
-									Designer</a></li>
-						</ul></li>
+			<div class="top-nav nav-collapse">
+				<ul class="nav">
+					<li><a href="#">Visit Site</a></li>
+					<li>
+						<form class="navbar-search pull-left">
+							<input placeholder="Search" class="search-query span2"
+								name="query" type="text">
+						</form>
+					</li>
 				</ul>
-				<!-- 				<ul class="nav">
+			</div>
+			<!--/.nav-collapse -->
+		</div>
+	</div>
+</div>
+<!-- topbar ends -->
+
+<div class="navbar">
+	<div class="navbar-inner">
+		<div class="container" style="width: auto;">
+			<a class="btn btn-navbar" data-toggle="collapse"
+				data-target=".nav-collapse"> <span class="icon-bar"></span> <span
+				class="icon-bar"></span> <span class="icon-bar"></span>
+			</a>
+			<div class="nav-collapse">
+				<ul class="nav">
 					<li class="dropdown"><a href="category.html"
-						class="dropdown-toggle" data-toggle="dropdown">Dashboard <b
+						class="dropdown-toggle" data-toggle="dropdown">Desktops <b
 							class="caret"></b></a>
 						<ul class="dropdown-menu">
 							<li><a href="listings.html">PC</a></li>
@@ -99,14 +87,20 @@
 					<li><a href="listings.html">Phones &amp; PDAs</a></li>
 
 				</ul>
- -->
+
+				<ul class="nav pull-right">
+					<li class="divider-vertical"></li>
+					<form class="navbar-search" action="">
+						<input type="text" class="search-query span2" placeholder="Search">
+						<button class="btn btn-primary btn-small search_btn" type="submit">Go</button>
+					</form>
+
+				</ul>
 			</div>
 			<!-- /.nav-collapse -->
-			<!-- user dropdown ends -->
-			<!--/.nav-collapse -->
 		</div>
 	</div>
+	<!-- /navbar-inner -->
 </div>
-<!-- topbar ends -->
 <!-- /navbar -->
 <!-- end nav -->

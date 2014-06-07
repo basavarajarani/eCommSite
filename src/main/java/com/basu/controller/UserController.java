@@ -1,6 +1,7 @@
 package com.basu.controller;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -136,7 +137,7 @@ public class UserController {
 		}
 
 		Page<User> users = this.eCommService.getAllUsers(pageRequest);
-		List<UserDto> userDtoList = UserMapper.map(users);
+		Set<UserDto> userDtoList = UserMapper.map(users);
 		JqgridResponse<UserDto> jqGridResponse = new JqgridResponse<UserDto>();
 		jqGridResponse.setRows(userDtoList);
 		jqGridResponse.setRecords(Long.valueOf(users.getTotalElements()).toString());

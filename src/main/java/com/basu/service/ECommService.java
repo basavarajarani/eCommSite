@@ -2,8 +2,9 @@ package com.basu.service;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang.WordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,7 +76,7 @@ public class ECommService {
 			
 			productCategory.setParentCategory(parentCategory);
 			if (parentCategory.getSubCategories()==null)
-				parentCategory.setSubCategories(new ArrayList<ProductCategory>());
+				parentCategory.setSubCategories(new HashSet<ProductCategory>());
 			parentCategory.getSubCategories().add(productCategory);
 		}
 //		productCategoryDao.addNewProductCategory(productCategory);
@@ -87,15 +88,14 @@ public class ECommService {
 			ProductCategory immediateParentProductCategory, String[] parentCategoryNameParts, int parentCategoryNamePartsCount) {
 
 			{
-				List<ProductCategory> subCategories = immediateParentProductCategory.getSubCategories();
+				Set<ProductCategory> subCategories = immediateParentProductCategory.getSubCategories();
 				
 				if (parentCategoryNamePartsCount+1 > parentCategoryNameParts.length )
 				{
 					System.out.println("Returning immediateParentProductCategory:"+immediateParentProductCategory.getCategoryName());
 					return immediateParentProductCategory;
 				}
-				for (int subCatCount = 0;subCatCount<subCategories.size();subCatCount++){
-					ProductCategory subCategory = subCategories.get(subCatCount);
+				for (ProductCategory subCategory:subCategories){
 					if (subCategory.getCategoryName().equals(parentCategoryNameParts[parentCategoryNamePartsCount]))
 					{
 						System.out.println("Invoking for :"+subCategory.getCategoryName()+" partsCount:"+
@@ -138,7 +138,7 @@ public class ECommService {
 		
 	}
 
-	public List<ProductCategory> getAllTopLevelProductCategories() {
+	public Set<ProductCategory> getAllTopLevelProductCategories() {
 		// TODO Auto-generated method stub
 		return productCategoryRepository.findAllTopLevelProductCategories();
 	}
@@ -164,10 +164,10 @@ public class ECommService {
 
 	public String retrieveAllCountries() {
 		// TODO Auto-generated method stub
-		List<Countries> countryList = this.countriesRepository.findAll();
+		Set<Countries> countryList = this.countriesRepository.findAllCountries();
 		String countrySelectString = "<select>";
-		for (int i = 0 ; i<countryList.size();i++)
-			countrySelectString += "<option value='"+countryList.get(i).getCountry_name()+"'>"+countryList.get(i).getCountry_name()+"</option>";
+		for (Countries country:countryList)
+			countrySelectString += "<option value='"+country.getCountry_name()+"'>"+country.getCountry_name()+"</option>";
 		countrySelectString+= "</select>";
 		return countrySelectString;
 	}

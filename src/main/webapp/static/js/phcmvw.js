@@ -1,5 +1,71 @@
 var PHCApp = angular.module('PHCApp',['ngRoute','ngSanitize']);
 
+PHCApp.directive("myDirective", function(){
+	return function(scope, element, attrs){
+		attrs.$observe('value',function(actual_value){
+			element.val(actual_value);
+		});
+		element.spinner({
+			min:1,
+			max:99,
+			stop:function(event, ui){
+				var cart = shopCart.returnCart();
+				var items = cart.items;
+
+				var spinnerItemId = this.name;
+				var spinnerNewValue = this.value;
+				var newTotal = 0;
+
+				var itemTotalAfter = 0;
+				var noOfItems = 0;
+
+				$.each(items, function(key,value){
+					if (value.id == spinnerItemId) {
+						var itemPrice = value.price;
+						itemTotalAfter = eval(itemPrice*spinnerNewValue);
+						value.quantity = spinnerNewValue;
+						value.total = parseFloat(itemTotalAfter).toFixed(2);
+					}
+					newTotal += parseFloat(value.total);
+					noOfItems ++;
+
+				});
+				shopCart.overWriteCart(cart,newTotal,noOfItems);
+
+				var parentTd = $(this).parents("td");
+				var itemPriceTd = $(parentTd).next();
+				var itemTotalTd = $(itemPriceTd).next();
+				$(itemTotalTd).html("$"+parseFloat(itemTotalAfter).toFixed(2));
+				$("#cartsubtotal").html("$"+parseFloat(""+newTotal).toFixed(2));
+				console.log("hello");
+				shoppingcartservice.retrieveCart();
+				shoppingcartservice.returnTotal();
+			}
+		});
+	};
+	
+});
+
+PHCApp.factory('shoppingcartservice', function(){
+	var items = [];
+	var shoppingcartservice = {};
+	shoppingcartservice.retrieveCart = function(){
+		var cart=null;
+		if (null != shopCart)
+			cart = shopCart.returnCart();
+		if (null != cart)
+			items = cart.items;
+	};
+	shoppingcartservice.returnTotal = function(){
+		if (null != shopCart)
+			return shopCart.returnTotal();
+	};
+	shoppingcartservice.getCartItems = function() {
+		shoppingcartservice.retrieveCart();
+		return items;
+	};
+	return shoppingcartservice;
+});
 PHCApp.config(['$routeProvider','$locationProvider',function($routeProvider,$locationProvider){
 	$routeProvider.
 		when('/',{
@@ -9,8 +75,8 @@ PHCApp.config(['$routeProvider','$locationProvider',function($routeProvider,$loc
 		when('/index.html',{
 			redirectTo:'/'
 		}).
-		when('/login',{
-			templateUrl:'static/html/login.html'
+		when('/loginregister',{
+			templateUrl:'static/html/loginregister.html'
 		}).
 		when('/products/category=:categoryId',{
 			templateUrl:'static/html/ProductItems.html',
@@ -71,4 +137,24 @@ PHCApp.config(['$routeProvider','$locationProvider',function($routeProvider,$loc
 })
 .controller('OtherWiseController', function($scope, $routeParams,$location){
 	alert($location.path);
+}).controller('ShoppingCartController', function($scope,shoppingcartservice){
+
+	$scope.shoppingcartlist = shoppingcartservice.getCartItems;	
+	
+	$scope.shoppingCartTotal = shoppingcartservice.returnTotal;
+	$scope.refresh = shoppingcartservice.retrieveCart;
+	$scope.removeItem = function($event){
+		var productId = $($event.target).data("productid");
+		if (null != shopCart){
+			shopCart.removeItem(productId);
+		}
+		var parentTr = $(this).parents("tr");
+		$(parentTr).remove();
+	};
+	
+
+	
+}).controller('ViewCartController', function($scope, shoppingcartservice){
+	
+	$scope.updateViewCart = shoppingcartservice.retrieveCart;
 });

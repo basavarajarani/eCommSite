@@ -12,15 +12,15 @@
 <body>
 	<jsp:include page="AdminNavBar.jsp"/>
 	
-	<div class="container-fluid">
-		<div class="row-fluid">
+	<div class="container">
+		<div class="row">
 
 			<!--  Include the Left Menu Component -->
 			<jsp:include page="AdminLeftMenu.jsp"/>
 			
 			
 			<noscript>
-				<div class="alert alert-block span10">
+				<div class="alert alert-block span12">
 					<h4 class="alert-heading">Warning!</h4>
 					<p>
 						You need to have <a href="http://en.wikipedia.org/wiki/JavaScript"
@@ -29,7 +29,7 @@
 				</div>
 			</noscript>
 
-			<div id="content" class="span10">
+			<div id="content" class="span12">
 				<!-- content starts -->
 
 
